@@ -1,0 +1,19 @@
+{
+  "server": {
+    "port": 8000,
+    "cors": {
+      "origin": "*"
+    },
+    "database": {
+      "host": "localhost",
+      "name": "cute",
+      "user": "root",
+      "password": "",
+      "dialect": "mysql"
+    }
+  },
+  "JWT": {
+    "RefreshKey": "MyKey",
+    "AccessKey": "MyAccessKey"
+  }
+}
