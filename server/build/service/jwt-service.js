@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyToken = exports.logout = exports.saveToken = exports.genTokenHandler = void 0;
+exports.verifyToken = exports.logoutToken = exports.saveToken = exports.genTokenHandler = void 0;
 const jwt_token_model_1 = __importDefault(require("../models/jwt-token-model"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_json_1 = __importDefault(require("../../config.json"));
@@ -25,17 +25,18 @@ const saveToken = async (userId, refresh) => {
     return await jwt_token_model_1.default.create({ id: userId, refresh });
 };
 exports.saveToken = saveToken;
-const logout = async (refresh) => {
+const logoutToken = async (refresh) => {
     const exist = await jwt_token_model_1.default.findOne({ where: { refresh } });
     if (!exist) {
         return;
     }
     await exist.update({ refresh: "" });
 };
-exports.logout = logout;
+exports.logoutToken = logoutToken;
 const verifyToken = (token, isRefresh) => {
     if (isRefresh) {
-        return jsonwebtoken_1.default.verify(token, config_json_1.default.JWT.RefreshKey);
+        const data = jsonwebtoken_1.default.verify(token, config_json_1.default.JWT.RefreshKey);
+        return data;
     }
     return jsonwebtoken_1.default.verify(token, config_json_1.default.JWT.AccessKey);
 };
