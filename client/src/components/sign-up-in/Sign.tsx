@@ -9,14 +9,24 @@ import uwu7 from './resource/_ω_.svg'
 
 import './main.css'
 import './ourStyle.css'
+import AuthorizationStore from "../../stores/authorization-store.ts";
+
+
+import {useState, ChangeEvent, ReactNode} from "react";
 
 let i = 1
+function Sign():ReactNode{
+    const [registerValue, setRegisterValue] = useState({
+        nickname:"",
+        login:"",
+        password:"",
+        repitPassword:""
 
-function Sign({Logining, Registers}){
-const registerValue = []
-const loginingValue = []
-
-
+    })
+    const InputHandler = (eventText:ChangeEvent,InputName:string):void =>{
+        setRegisterValue({...registerValue, [InputName]:eventText})
+    }
+    console.log(AuthorizationStore.isAuth)
     return (
         <>
             <div className="carousel">
@@ -249,24 +259,24 @@ const loginingValue = []
                             <img src={uwu6} alt=""/>
                             <form>
                                 <div>
-                                    <input onInput={(el) => {registerValue[0]=el.target.value}} type="text" placeholder="Nickname!" name="login"/>
+                                    <input onInput={(el) => {InputHandler(el.target.value , el.currentTarget.name)}} type="text" placeholder="Nickname!" name="login"/>
                                     {/*<small>dont work</small>*/}
                                 </div>
                                 <div>
-                                    <input onInput={(el)=>{registerValue[1]=el.target.value}} type="text" placeholder="Login!" name="login"/>
+                                    <input onInput={(el)=>{InputHandler(el.target.value , el.currentTarget.name)}} type="text" placeholder="Login!" name="login"/>
                                     {/*<small>dont work</small>*/}
                                 </div>
                                 <div>
-                                    <input onInput={(el)=>{registerValue[2]=el.target.value}} type="password" placeholder="Password!" name="password"/>
+                                    <input onInput={(el) => {InputHandler(el.target.value , el.currentTarget.name)}} type="password" placeholder="Password!" name="password"/>
                                     {/*<small>dont work</small>*/}
                                 </div>
                                 <div>
-                                    <input type="password" placeholder="Repit-pass!" name="repitPass"/>
+                                    <input type="password" placeholder="Repit-pass!" name="repitPassword"/>
                                     {/*<small>dont work</small>*/}
                                 </div>
                             </form>
                             <div className="label">
-                                <label style={{cursor: "pointer"}} onClick={() => Registers(registerValue)}>Register!!</label>
+                                <label style={{cursor: "pointer"}} onClick={() => AuthorizationStore.Register(registerValue.nickname, registerValue.login,registerValue.password)}>Register!!</label>
                                 {/*<small>dont work</small>*/}
                             </div>
                         </div>
@@ -360,8 +370,8 @@ const loginingValue = []
 export default Sign;
 
 function List(){
-    const front = document.querySelector('.front');
-    const back  = document.querySelector('.back');
+    const front:HTMLElement = document.querySelector('.front');
+    const back:HTMLElement  = document.querySelector('.back');
 
     i++
     if(i % 2 === 0)

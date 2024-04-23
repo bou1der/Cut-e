@@ -8,7 +8,8 @@ export const register = async (req:Request,res:Response) =>{
     try{
         const {nickname,login,password} = req.body
         const exist = await User.findOne({where:{login}})
-        if(!exist){
+        console.log(exist)
+        if(exist){
             return error.handle(res,500,"Пользователь уже существует",{login,password,exist},"Ошибка выберите другой логин")
         }
         const hash :string = await bcrypt.hash(password,10)

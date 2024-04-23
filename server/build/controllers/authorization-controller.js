@@ -13,7 +13,8 @@ const register = async (req, res) => {
     try {
         const { nickname, login, password } = req.body;
         const exist = await users_model_1.default.findOne({ where: { login } });
-        if (!exist) {
+        console.log(exist);
+        if (exist) {
             return Error_handler_1.default.handle(res, 500, "Пользователь уже существует", { login, password, exist }, "Ошибка выберите другой логин");
         }
         const hash = await bcrypt_1.default.hash(password, 10);
