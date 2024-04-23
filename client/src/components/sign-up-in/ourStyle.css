@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Itim&family=Raleway:wght@200;300;400;500;600;700;800&display=swap');
+body
+{
+    
+    font-family: Itim;
+    font-size: 18px;
+    line-height: normal;
+    font-weight: 400;
+    margin: 0px;
+    min-width: 250px;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: fixed;
+    background-color: #FFD2CF;
+}
+.carousel
+{
+    
+    position: absolute;
+    z-index: -2;
+    white-space: nowrap;
+    animation: slides 30s linear infinite;
+    margin-left: -50%;
+    
+}
+.carousel-2
+{
+    position: absolute;
+    z-index: -2;
+    white-space: nowrap;
+    animation: slides2 20s linear infinite;
+    margin-left: -50%;
+}
+.carousel-3
+{
+    position: absolute;
+    z-index: -2;
+    white-space: nowrap;
+    animation: slides3 20s linear infinite;
+    margin-left: -50%;
+}
+.content-carousel
+{
+    display: inline-block;
+}
+.content-carousel img
+{
+    width: 60px;
+    padding: 30px;
+    transform: rotateZ(90deg);
+}
+@keyframes slides {
+    0%{
+        transform: rotateZ(-50deg) translateX(0%) translateY(900px);
+
+    }
+    100%{
+        transform:rotateZ(-50deg) translateX(25%) translateY(900px);
+    }
+}
+@keyframes slides2 {
+    0%{
+        transform: rotateZ(-50deg) translateX(0%) translateY(250px) ;
+
+    }
+    100%{
+        transform:rotateZ(-50deg) translateX(25%) translateY(250px);
+    }
+}
+@keyframes slides3 {
+    0%{
+        transform: rotateZ(-50deg) translateX(0%) translateY(-300px);
+
+    }
+    100%{
+        transform:rotateZ(-50deg) translateX(25%) translateY(-300px);
+    }
+}

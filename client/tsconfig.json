@@ -20,7 +20,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "removeComments": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "resolvePackageJsonImports": true,
+    "suppressImplicitAnyIndexErrors": false
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

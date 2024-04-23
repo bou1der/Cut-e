@@ -1,0 +1,8 @@
+{
+  "axios": {
+    "ServerUrl": "http://localhost:8000/api"
+  },
+  "client": {
+    "port": 3000
+  }
+}

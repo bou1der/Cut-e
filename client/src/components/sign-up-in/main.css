@@ -1,0 +1,248 @@
+
+
+.block1
+{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mainCard
+{
+    width: 90%;
+    height: 90%;
+    background: #FFF;
+    border-radius: 25px;
+    max-width: 1050px;
+    max-height: 850px;
+
+}
+.inCard
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    position: relative;
+}
+.inCard aside
+{
+    width: 50%;
+    height: 100%;
+}
+.ourcard
+{
+    height: 100%;
+    width: 100%;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+.inCard aside form
+{
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    gap: 50px;
+}
+.inCard aside form div
+{
+    width: 90%;
+    max-width: 380px;
+}
+.inCard aside div img
+{
+    width: 40%;
+    max-width: 205px;
+    min-width: 60px;
+}
+.inCard aside small
+{
+    margin-left: 20px;
+    color: red;
+}
+.label
+{
+    width: 100%;
+    max-width: 350px;
+}
+.inCard aside input
+{
+    background: #FFD2CF;
+    border: none;
+    box-shadow:3px 3px 4px rgb(0, 0, 0, 25%);
+    width: 100%;
+    max-width: 350px;
+    font-size: 18px;
+    height: 50px;
+    padding: 0px;
+    padding-left: 30px;
+    border-radius: 12px;
+
+    font-size: 18px;
+    font-family: Itim;
+    
+    border: 0pх;
+}
+.inCard aside input::placeholder
+{
+    color: rgb(138, 91, 74, 45%);
+}
+.inCard aside input:focus::placeholder
+{
+    opacity: 0;
+}
+.inCard aside input:focus
+{
+    outline: none;
+}
+.inCard aside label
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 350px;
+    height: 50px;
+    
+    background: #FFD2CF;
+    border: none;
+    border-radius: 25px;
+
+    position: relative;
+    bottom: 0px;
+
+    font-size: 18px;
+    font-family: Itim;
+    color: rgb(138, 91, 74);
+}
+.inCard aside button
+{
+    display: none;
+}
+
+.front
+{
+    height: 100%;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    z-index: 1;
+    
+}
+.Log button
+{
+    color: rgb(138, 91, 74, 70%);
+    background-color: #FFD2CF;
+    width: 100%;
+    height: 100%;
+    max-width: 77px;
+    max-height: 80px;
+    min-height: 40px;
+    min-width: 40px;
+
+    padding: 0px;
+    border: 3px #FFD2CF solid;
+    border-radius: 28px;
+    font-family: Itim;
+    font-size: 18px;
+    margin-top: 5%;
+    transition: border-color 0.3s ease-out;
+}
+.Log button:hover
+{
+    border: 3px #8A5B4A solid;
+}
+.Log button:active
+{
+    background-color: rgb(255, 210, 207, 45%);
+}
+.front button
+{
+    margin-left: 10%;
+}
+.front p
+{
+    font-size: 18px;
+    font-family: Itim;
+    color: #8A5B4A;
+    max-width: 400px;
+}
+.links
+{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    min-width: 100%;
+}
+.Log
+{
+    width: 100%;
+}
+.separator 
+{
+    border: 1px #8A5B4A solid;
+    border-radius: 100px;
+}
+.anotherLog
+{
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+}
+.anotherLog p
+{
+    text-align: center;
+}
+
+/* list animate */
+
+.back , .front
+{
+    position: absolute;
+
+    transition: transform 0.7s ease-in-out;
+    transform-origin: left;
+
+    background-color: #FFC4C4;
+    border-radius: 25px;
+
+    height: 100%;
+    max-height: 850px;
+    width: 50%;
+    max-width: 525px;
+    right: 0px;
+}
+.front
+{
+  
+    backface-visibility: hidden;
+}
+/* list animate */
+.back
+{
+   
+}
+.inBack
+{
+    display: grid;
+    justify-items: center;
+    height: 100%;
+    transform: rotateY(-180deg);
+    
+}
+.inBack button
+{
+    position: fixed;
+    right: 10%;
+}
+.backTxt
+{
+    color: #8A5B4A;
+    font-family: Itim;
+    font-size: 18px;
+    max-width: 355px;
+}
