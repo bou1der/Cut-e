@@ -1,0 +1,302 @@
+@import url('https://fonts.googleapis.com/css2?family=Itim&family=Raleway:wght@200;300;400;500;600;700;800&display=swap');
+html{
+    min-width: 100%;
+    min-height: 100%;
+    position: relative;
+}
+
+body{
+    position: relative;
+    background-color: rgba(255, 210, 207, 1);
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding: 0px;
+    margin: 0px;
+    font-family: Itim;
+    color:  #8A5B4A;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.content{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+.userMesseges{
+    width: 250px;
+    height: 80%;
+    background-color: rgba(255, 196, 196, 1);
+    box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.25) inset;
+    border-radius: 25px;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    overflow-y: scroll;
+    gap: 10px;
+    scrollbar-width: none;
+}
+.user
+{
+    width: 90%;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    cursor: pointer;
+}
+.user:hover{
+    background: rgba(0, 0, 0, 0.10);
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 20px;
+}
+.user img{
+    width: 50px;
+}
+.user_info
+{
+padding-left: 8px;
+max-width: 50%;
+overflow: hidden;
+}
+.user h3, .user p
+{
+    margin: 0px;
+    display: inline-block;
+    font-size: 13px;
+}
+.user h3
+{
+    font-size: 22px;
+    font-weight: 400;
+}
+.user span
+{
+    height: 100%;
+}
+.timeblock
+{
+    display: inline-block;
+}
+.timeblock p
+{
+    font-size: 11px;
+}
+.separator
+{
+    content: "";
+    border: 0.5px #8A5B4A solid;
+    width: 90%;
+    border-radius: 100px;
+}
+
+.blockMesseges{
+    height: 82%;
+    width: 50%;
+    padding-bottom: 15px;
+    background-color: white;
+    box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.25) inset;
+    border-radius: 25px;
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+.dialog_info{
+    height: 70px;
+    padding-top: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    
+}
+.user_info_block{
+    display: flex;
+    max-width: 25%;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+}
+.user_info_block div
+{
+    display: inline-block;
+}
+.user_info_block h3
+{
+    margin: 0px;
+
+    max-width: none;
+}
+.user_info_block span p 
+{
+    margin-left: 5px;
+    margin: 0px;
+    display: inline-block;
+    padding-left: 4px;
+}
+.buttons_dialog
+{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-right: 10px;
+}
+.buttons_dialog button
+{
+    width: 50px;
+    height: 50px;
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    background-color: rgb(0, 0, 0,0%);
+    cursor: pointer;
+    padding: 4px;
+}
+.buttons_dialog button:hover
+{
+    background-color: rgba(255, 196, 196, 50%);
+    border-radius: 17px;
+}
+.buttons_dialog img
+{
+    width: 100%;
+    margin-right: 15px;
+}
+.separator_dialog
+{
+    content: "";
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    border-bottom: 2px rgba(255, 196, 196, 1) solid;
+}
+.typeMessege{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    position: relative;
+    bottom: 0px;
+    padding-top: 20px;
+}
+.inputMessenge
+{
+    width: 70%;
+    height: 37px;
+    position: relative;
+    
+}
+.inputMessenge textarea
+{
+    width: 90%;
+    padding-top: 9px; 
+    min-height: 20px;
+    max-height: 200px;
+    margin: 0px;
+    border: none;
+    background-color: #FFD2CF;
+    border-radius: 25px;
+    padding-left: 27px;
+
+    font-family: Itim;
+    color: #8A5B4A;
+    font-size: 18px;
+    background-image: url(/resource/^•v•^.svg);
+    background-repeat: no-repeat;
+    background-position: 250px;
+    resize:none;
+    outline: none;
+}
+.inputMessenge textarea::placeholder
+{
+    font-family: Itim;
+    font-size: 18px;
+    font-weight: 400;
+    color: #8A5B4A;
+}
+.inputMessenge textarea::-webkit-scrollbar
+{
+    width: 0px;
+}
+.inputMessenge textarea:focus::placeholder{
+    opacity: 0;
+}
+.inputMessenge textarea:focus{
+    outline: none;
+}
+.inputMessenge img
+{
+    position: absolute;
+    right: 70px;
+    bottom: 5px;
+    cursor:text;
+}
+.typeMessege button
+{
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: rgb(0, 0, 0,0%);
+}
+.typeMessege button img
+{
+    width: 100%;
+    height: 100%;
+}
+.messegesBlock
+{
+    height: 100%;
+    width: 93%;
+    margin-left: auto;
+    margin-right: auto;
+    /* display: flex; */
+    /* flex-flow: column nowrap; */
+    /* justify-content: flex-end; */
+    gap: 25px;
+    overflow-y: scroll;
+    padding-top: 10px;
+    padding-bottom: 25px;
+    scrollbar-width: none;
+}
+.messegesBlock::-webkit-scrollbar
+{
+    width: 0px;
+}
+.message{
+    display: flex;
+    height: auto;
+    gap: 20px;
+    align-items:flex-end;
+    margin-top: 25px;
+}
+.message p{
+    margin: 0px;
+    max-width: 240px;
+    max-height: none;
+    word-wrap: break-word;
+    background-color: rgba(255, 196, 196, 1);
+    padding: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 30px;
+}
+.sender_me
+{
+    justify-content: flex-start;
+    flex-direction: row-reverse;
+}
+

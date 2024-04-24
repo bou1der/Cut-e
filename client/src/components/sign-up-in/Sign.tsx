@@ -9,24 +9,37 @@ import uwu7 from './resource/_ω_.svg'
 
 import './main.css'
 import './ourStyle.css'
-import AuthorizationStore from "../../stores/authorization-store.ts";
 
-
-import {useState, ChangeEvent, ReactNode} from "react";
-
+import {useState, ChangeEvent} from 'react'
+import authorizationStore from '../../stores/authorization-store';
+import { observer } from 'mobx-react-lite';
 let i = 1
-function Sign():ReactNode{
+
+const Sign = ({}) => {
     const [registerValue, setRegisterValue] = useState({
         nickname:"",
         login:"",
         password:"",
         repitPassword:""
-
     })
-    const InputHandler = (eventText:ChangeEvent,InputName:string):void =>{
-        setRegisterValue({...registerValue, [InputName]:eventText})
+    const [loginValue, setLoginValue] = useState({
+        login:"",
+        password:"",
+    })
+    const InputRegisterHandlers = (InputName :string, InputValue:string):void =>{
+        setRegisterValue({
+            ...registerValue,
+            [InputName]:InputValue
+        })
     }
-    console.log(AuthorizationStore.isAuth)
+    const InputLoginHandlers = (InputName :string, InputValue:string):void =>{
+        setLoginValue({
+            ...loginValue,
+            [InputName]:InputValue
+        })
+    }
+    
+
     return (
         <>
             <div className="carousel">
@@ -259,24 +272,24 @@ function Sign():ReactNode{
                             <img src={uwu6} alt=""/>
                             <form>
                                 <div>
-                                    <input onInput={(el) => {InputHandler(el.target.value , el.currentTarget.name)}} type="text" placeholder="Nickname!" name="login"/>
+                                    <input onChange={(el) => {InputRegisterHandlers(el.target.name,el.target.value)}} type="text" placeholder="Nickname!" name="nickname"/>
                                     {/*<small>dont work</small>*/}
                                 </div>
                                 <div>
-                                    <input onInput={(el)=>{InputHandler(el.target.value , el.currentTarget.name)}} type="text" placeholder="Login!" name="login"/>
+                                    <input onChange={(el)=>{InputRegisterHandlers(el.target.name , el.target.value)}} type="text" placeholder="Login!" name="login"/>
                                     {/*<small>dont work</small>*/}
                                 </div>
                                 <div>
-                                    <input onInput={(el) => {InputHandler(el.target.value , el.currentTarget.name)}} type="password" placeholder="Password!" name="password"/>
+                                    <input onChange={(el)=>{InputRegisterHandlers(el.target.name , el.target.value)}} type="password" placeholder="Password!" name="password"/>
                                     {/*<small>dont work</small>*/}
                                 </div>
                                 <div>
-                                    <input type="password" placeholder="Repit-pass!" name="repitPassword"/>
+                                    <input onChange={(el) =>{InputRegisterHandlers(el.target.name , el.target.value)}} type="password" placeholder="Repit-pass!" name="repitPassword"/>
                                     {/*<small>dont work</small>*/}
                                 </div>
                             </form>
                             <div className="label">
-                                <label style={{cursor: "pointer"}} onClick={() => AuthorizationStore.Register(registerValue.nickname, registerValue.login,registerValue.password)}>Register!!</label>
+                                <label style={{cursor: "pointer"}} onClick={() => authorizationStore.Register(registerValue.nickname,registerValue.login,registerValue.password)}>Register!!</label>
                                 {/*<small>dont work</small>*/}
                             </div>
                         </div>
@@ -286,17 +299,17 @@ function Sign():ReactNode{
                             <img src={uwu7} alt=""/>
                             <form>
                                 <div>
-                                    <input type="text" placeholder="Login!" onInput={(el) =>loginingValue[0] = el.target.value} name="login"/>
+                                    <input type="text" placeholder="Login!" onChange={(el) =>InputLoginHandlers(el.target.name,el.target.value)} name="login"/>
                                     {/*<small>dont work</small>*/}
                                 </div>
                                 <div>
-                                <input type="password" placeholder="Password!" onInput={(el) =>loginingValue[1]= el.target.value} name="password"/>
+                                <input type="password" placeholder="Password!" onChange={(el) =>InputLoginHandlers(el.target.name,el.target.value)} name="password"/>
                                     {/*<small>dont work</small>*/}
                                 </div>
                                 <input type="text" style={{opacity: "0", cursor: "default"}}/>
 
                             </form>
-                            <label style={{cursor:"pointer"}} onClick={()=>Logining(loginingValue)}>Log-in!!</label>
+                            <label style={{cursor:"pointer"}} onClick={()=>authorizationStore.Login(loginValue.login,loginValue.password)}>Log-in!!</label>
                         </div>
                     </aside>
                     <div className="front">
@@ -367,11 +380,11 @@ function Sign():ReactNode{
     );
 }
 
-export default Sign;
+export default observer(Sign)
 
 function List(){
-    const front:HTMLElement = document.querySelector('.front');
-    const back:HTMLElement  = document.querySelector('.back');
+    const front = document.querySelector('.front');
+    const back  = document.querySelector('.back');
 
     i++
     if(i % 2 === 0)
@@ -385,4 +398,4 @@ function List(){
         back.style.transform = 'perspective(1500px) rotateY(0deg)' ;
 
     }
-    }
+}

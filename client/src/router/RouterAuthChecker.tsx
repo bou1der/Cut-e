@@ -1,17 +1,19 @@
-import {ReactNode} from "react";
-import {AuthStoreInterface} from "../stores/authorization-store.ts";
+import {} from "react";
+import {observer } from "mobx-react-lite";
 import {Navigate, Outlet} from "react-router-dom";
-interface test {
-    AuthStore:AuthStoreInterface
-}
-const CheckerRouter = ({AuthStore}:test):ReactNode =>{
-    if (AuthStore.isAuthProgress){
+import authorizationStore from "../stores/authorization-store.ts";
+
+const CheckerRouter = ({}) =>{
+    
+    authorizationStore.CheckAuth
+
+    if (authorizationStore.isAuthProgress){
         return <div>///Loading///</div>
     }
-    if (AuthStore.isAuth){
-        return <Outlet />
+    if (authorizationStore.isAuth){
+        return <Outlet/>
     }else {
         return <Navigate to={"/authorization"}/>
     }
 }
-export default CheckerRouter
+export default observer(CheckerRouter)

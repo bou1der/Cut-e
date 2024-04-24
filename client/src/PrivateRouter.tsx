@@ -1,29 +1,38 @@
-import {ReactNode,useEffect} from "react"
-import {} from "react-router"
-import {Route,Routes,BrowserRouter} from "react-router-dom"
+import {} from "react"
+import {Route,Routes,BrowserRouter, Navigate,NavLink} from "react-router-dom"
 import AuthStore from "./stores/authorization-store.ts"
 import CheckerRouter from "./router/RouterAuthChecker.tsx";
 
-// components
-import Sign from "./components/sign-up-in/Sign.tsx"
-// components
-const PrivateRouter = ():ReactNode =>{
-    useEffect(() => {
-        console.log(AuthStore.isAuth)
-    }, [AuthStore.isAuth]);
+import SignPage from "./components/sign-up-in/Sign.tsx"
+import NavigatePanel from "./components/NavigatePanel/NavBar.tsx"
+
+
+import {observer} from "mobx-react-lite"
+
+const PrivateRouter = observer(() =>{
     return (
         <>
             <BrowserRouter>
+                {!AuthStore.isAuth || <NavigatePanel/>}
                 <Routes>
                     <Route path={"/"} element={<div>Основная ссылка</div>}/>
-                    <Route path={"/authorization"} element={<Sign/>}/>
-                    <Route path={"/messages"} element={<CheckerRouter AuthStore={AuthStore}/>}>
-                        <Route path={""}/>
+                    {AuthStore.isAuth || <Route path={"/authorization"} element={<SignPage/>}/> }
+                    <Route path={"/profile"} element={<CheckerRouter/>}>
+                        <Route path={""} element={<h1>Профиль</h1>}/>
                     </Route>
-                    <Route path={"*"} element={<div>Not Found</div>}/>
+                    <Route path={"/messages"} element={<CheckerRouter/>}>
+                        <Route path="" element={<div>Вы вошли в систему, здесь будет содержимое сообщений</div>}/>
+                    </Route>
+                    <Route path={"/friends"} element={<CheckerRouter/>}>
+                        <Route path="" element={<div>Твои друзья(Если они есть)</div>}/>
+                    </Route>
+                    <Route path={"/groups"} element={<CheckerRouter/>}>
+                        <Route path="" element={<div>Группы</div>}/>
+                    </Route>
+                    <Route path={"*"} element={<NavLink to={"/messages"}> ссылка</NavLink>}/>
                 </Routes>
             </BrowserRouter>
         </>
     )
-}
+})
 export default PrivateRouter
