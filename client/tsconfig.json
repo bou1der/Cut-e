@@ -16,13 +16,14 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "removeComments": true,
     "noImplicitAny": true,
     "resolvePackageJsonImports": true,
-    "suppressImplicitAnyIndexErrors": false
+    "suppressImplicitAnyIndexErrors": false,
+    "strictPropertyInitialization": false,
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

@@ -4,5 +4,8 @@
   },
   "client": {
     "port": 3000
+  },
+  "socketIo": {
+    "url": "http://localhost:8000"
   }
 }

@@ -45,7 +45,7 @@ class AuthorizationStore implements AuthStoreInterface{
             this.isAuthProgress = false
         }
     }
-    async CheckAuth() {
+    async CheckAuth():Promise<void> {
         this.isAuthProgress = true
         try {
             this.isAuth = true

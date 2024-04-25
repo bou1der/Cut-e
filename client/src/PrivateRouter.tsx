@@ -1,5 +1,5 @@
-import {} from "react"
-import {Route,Routes,BrowserRouter, Navigate,NavLink} from "react-router-dom"
+import {useEffect} from "react"
+import {Route,Routes,BrowserRouter,NavLink} from "react-router-dom"
 import AuthStore from "./stores/authorization-store.ts"
 import CheckerRouter from "./router/RouterAuthChecker.tsx";
 
@@ -8,8 +8,15 @@ import NavigatePanel from "./components/NavigatePanel/NavBar.tsx"
 
 
 import {observer} from "mobx-react-lite"
+import SocketStore from "./stores/socket-events-store.ts";
 
 const PrivateRouter = observer(() =>{
+
+    useEffect(() => {
+        SocketStore.connect()
+    //     MessagesStore
+    }, [AuthStore.isAuth]);
+
     return (
         <>
             <BrowserRouter>

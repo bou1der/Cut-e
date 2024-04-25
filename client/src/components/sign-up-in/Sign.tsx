@@ -10,7 +10,7 @@ import uwu7 from './resource/_ω_.svg'
 import './main.css'
 import './ourStyle.css'
 
-import {useState, ChangeEvent} from 'react'
+import {useState} from 'react'
 import authorizationStore from '../../stores/authorization-store';
 import { observer } from 'mobx-react-lite';
 let i = 1
