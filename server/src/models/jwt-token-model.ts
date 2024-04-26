@@ -26,9 +26,9 @@ Tokens.init(
         },
     },
     {
-        sequelize: connection, // Подключение к базе данных Sequelize
-        modelName: 'tokens', // Наименование модели в Sequelize
-        tableName: 'tokens', // Наименование таблицы в базе данных
+        sequelize: connection,
+        modelName: 'tokens',
+        tableName: 'tokens',
     }
 )
 

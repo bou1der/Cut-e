@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
+const sequelize_2 = __importDefault(require("sequelize"));
 const sequelize_connect_1 = __importDefault(require("./sequelize-connect"));
 class User extends sequelize_1.Model {
 }
@@ -30,6 +31,14 @@ User.init({
         type: sequelize_1.DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: false,
+    },
+    createdAt: {
+        type: sequelize_1.DataTypes.DATE,
+        defaultValue: sequelize_2.default.NOW
+    },
+    updatedAt: {
+        type: sequelize_1.DataTypes.DATE,
+        defaultValue: sequelize_2.default.NOW
     }
 }, {
     sequelize: sequelize_connect_1.default,

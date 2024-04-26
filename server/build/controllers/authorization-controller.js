@@ -13,12 +13,12 @@ const register = async (req, res) => {
     try {
         const { nickname, login, password } = req.body;
         const exist = await users_model_1.default.findOne({ where: { login } });
-        if (!exist) {
+        if (exist) {
             return Error_handler_1.default.handle(res, 500, "Пользователь уже существует", { login, password, exist }, "Ошибка выберите другой логин");
         }
         const hash = await bcrypt_1.default.hash(password, 10);
-        const user = await users_model_1.default.create({ nickname, login, password });
-        const tokens = await (0, jwt_service_1.genTokenHandler)({ id: user.dataValues.id, name: user.dataValues.nickname, admin: user.dataValues.admin });
+        const user = await users_model_1.default.create({ nickname, login, password: hash });
+        const tokens = (0, jwt_service_1.genTokenHandler)({ id: user.dataValues.id, name: user.dataValues.nickname, admin: user.dataValues.admin });
         await (0, jwt_service_1.saveToken)(user.dataValues.id, tokens.refresh);
         res.cookie('refresh', tokens.refresh, { maxAge: 1728000, httpOnly: true });
         res.status(200).json({ tokens });
@@ -41,6 +41,7 @@ const login = async (req, res) => {
         }
         const tokens = (0, jwt_service_1.genTokenHandler)({ id: exist.dataValues.id, name: exist.dataValues.nickname, admin: exist.dataValues.admin });
         await (0, jwt_service_1.saveToken)(exist.dataValues.id, tokens.refresh);
+        console.log(tokens);
         res.cookie('refresh', tokens.refresh, { maxAge: 1728000, httpOnly: true });
         res.status(200).json({ tokens });
     }
@@ -56,12 +57,18 @@ const refresh = async (req, res) => {
             return Error_handler_1.default.handle(res, 404, "Отсутствует refresh токен", req.cookies, "Ненайденны некоторые данные");
         }
         const userData = (0, jwt_service_1.verifyToken)(refresh, true);
-        console.log(userData);
         const token = await jwt_token_model_1.default.findOne({ where: { refresh } });
         if (!userData || !token) {
-            return Error_handler_1.default.handle(res, 404, "Пользователь ненайден", req.body);
+            return Error_handler_1.default.handle(res, 404, "Пользователь ненайден", { token, userData });
         }
-        // const user = await User.findOne({where:{id:userData.id}})
+        const user = await users_model_1.default.findOne({ where: { id: userData.id } });
+        if (!user) {
+            return Error_handler_1.default.handle(res, 404, "Пользователь ненайден", { token, userData });
+        }
+        const tokens = (0, jwt_service_1.genTokenHandler)({ id: user.dataValues.id, name: user.dataValues.nickname, admin: user.dataValues.admin });
+        await (0, jwt_service_1.saveToken)(user.dataValues.id, tokens.refresh);
+        res.cookie('refresh', tokens.refresh, { maxAge: 1728000, httpOnly: true });
+        res.status(200).json({ tokens });
     }
     catch (err) {
         Error_handler_1.default.handle(res, 500, err, req.body, "Непредвиденная ошибка");

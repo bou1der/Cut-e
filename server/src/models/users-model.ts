@@ -1,4 +1,5 @@
 import {Model,InferAttributes,InferCreationAttributes,CreationOptional,DataTypes,Optional} from "sequelize";
+import Sequelize from "sequelize"
 import connection from "./sequelize-connect";
 
 interface UsersAttributes {
@@ -7,6 +8,8 @@ interface UsersAttributes {
     login:string;
     password:string;
     admin:boolean;
+    createdAt?:Date;
+    updatedAt?:Date;
 }
 interface UserCreationAttributes extends Optional<UsersAttributes, "id" | "admin"> {}
 
@@ -17,6 +20,8 @@ class User extends Model<UsersAttributes, UserCreationAttributes> implements Use
     public login!: string;
     public password!: string;
     public admin!: boolean;
+    public createdAt!:Date
+    public updatedAt!:Date
 }
 
 User.init(
@@ -43,7 +48,16 @@ User.init(
             type:DataTypes.BOOLEAN,
             defaultValue:false,
             allowNull:false,
+        },
+        createdAt:{
+            type:DataTypes.DATE,
+            defaultValue:Sequelize.NOW
+        },
+        updatedAt:{
+            type:DataTypes.DATE,
+            defaultValue:Sequelize.NOW
         }
+        
     },
     {
         sequelize:connection,

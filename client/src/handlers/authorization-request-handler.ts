@@ -21,7 +21,7 @@ export const refresh = async (
 
 ):Promise<AxiosResponse> =>{
 
-    return await api.post("/authorization/refresh",{},{withCredentials:true})
+    return await api.post("/authorization/refresh")
 }
 export const logout = async (
 

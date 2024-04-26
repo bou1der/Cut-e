@@ -5,23 +5,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const sequelize_connect_1 = __importDefault(require("./sequelize-connect"));
-class Tokens extends sequelize_1.Model {
+class Chats extends sequelize_1.Model {
 }
-Tokens.init({
+Chats.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
     },
-    refresh: {
-        type: sequelize_1.DataTypes.STRING(256),
+    name: {
+        type: sequelize_1.DataTypes.STRING,
         allowNull: true,
     },
+    users: {
+        type: sequelize_1.DataTypes.JSON,
+        allowNull: true
+    },
+    isGroup: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        allowNull: false
+    }
 }, {
     sequelize: sequelize_connect_1.default,
-    modelName: 'tokens',
-    tableName: 'tokens',
+    tableName: "chats",
+    modelName: "chats"
 });
-exports.default = Tokens;
-//# sourceMappingURL=jwt-token-model.js.map
+exports.default = Chats;
+//# sourceMappingURL=chats-model.js.map

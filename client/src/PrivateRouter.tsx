@@ -9,36 +9,45 @@ import NavigatePanel from "./components/NavigatePanel/NavBar.tsx"
 
 import {observer} from "mobx-react-lite"
 import SocketStore from "./stores/socket-events-store.ts";
+import { fetchChats } from "./handlers/messages-request-handler.ts";
 
 const PrivateRouter = observer(() =>{
 
     useEffect(() => {
-        SocketStore.connect()
+        AuthStore.CheckAuth()
+        // SocketStore.connect()
     //     MessagesStore
     }, [AuthStore.isAuth]);
 
     return (
         <>
-            <BrowserRouter>
-                {!AuthStore.isAuth || <NavigatePanel/>}
-                <Routes>
-                    <Route path={"/"} element={<div>Основная ссылка</div>}/>
-                    {AuthStore.isAuth || <Route path={"/authorization"} element={<SignPage/>}/> }
-                    <Route path={"/profile"} element={<CheckerRouter/>}>
-                        <Route path={""} element={<h1>Профиль</h1>}/>
-                    </Route>
-                    <Route path={"/messages"} element={<CheckerRouter/>}>
-                        <Route path="" element={<div>Вы вошли в систему, здесь будет содержимое сообщений</div>}/>
-                    </Route>
-                    <Route path={"/friends"} element={<CheckerRouter/>}>
-                        <Route path="" element={<div>Твои друзья(Если они есть)</div>}/>
-                    </Route>
-                    <Route path={"/groups"} element={<CheckerRouter/>}>
-                        <Route path="" element={<div>Группы</div>}/>
-                    </Route>
-                    <Route path={"*"} element={<NavLink to={"/messages"}> ссылка</NavLink>}/>
-                </Routes>
-            </BrowserRouter>
+            <>
+                {
+                    AuthStore.isAuthProgress ?
+                        <h1>///loading</h1>
+                        :
+                        <BrowserRouter>
+                            {!AuthStore.isAuth || <NavigatePanel/>}
+                            <Routes>
+                                <Route path={"/"} element={<div>Основная ссылка</div>}/>
+                                {AuthStore.isAuth || <Route path={"/authorization"} element={<SignPage/>}/> }
+                                <Route path={"/profile"} element={<CheckerRouter/>}>
+                                    <Route path={""} element={<h1>Профиль</h1>}/>
+                                </Route>
+                                <Route path={"/messages"} element={<CheckerRouter/>}>
+                                    <Route path="" element={<button style={{position:"absolute",right:"0px"}} onClick={() => fetchChats()}>Fetch</button>}/>
+                                </Route>
+                                <Route path={"/friends"} element={<CheckerRouter/>}>
+                                    <Route path="" element={<div>Твои друзья(Если они есть)</div>}/>
+                                </Route>
+                                <Route path={"/groups"} element={<CheckerRouter/>}>
+                                    <Route path="" element={<div>Группы</div>}/>
+                                </Route>
+                                <Route path={"*"} element={<NavLink to={"/messages"}> ссылка</NavLink>}/>
+                            </Routes>
+                        </BrowserRouter>
+                }
+            </>
         </>
     )
 })

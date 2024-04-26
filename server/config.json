@@ -2,7 +2,7 @@
   "server": {
     "port": 8000,
     "cors": {
-      "origin": "*"
+      "origin": "http://localhost:3000/"
     },
     "database": {
       "host": "localhost",
@@ -13,7 +13,7 @@
     }
   },
   "JWT": {
-    "RefreshKey": "MyKey",
+    "RefreshKey": "MyRefreshKey",
     "AccessKey": "MyAccessKey"
   }
 }

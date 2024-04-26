@@ -10,15 +10,19 @@ const CheckToken = (req, res, next) => {
     try {
         const exist = req.headers.authorization;
         if (!exist) {
-            return next(Error_handler_1.default.handle(res, 403, "Отсутсвует access токен", req.headers, "Проблемы с некоторыми данными"));
+            Error_handler_1.default.handle(res, 403, "Отсутсвует access токен", req.headers, "Проблемы с некоторыми данными");
+            return next(403);
         }
         const access = exist.split(' ');
+        console.log(access);
         if (!access[1] || access[1] === null) {
-            return next(Error_handler_1.default.handle(res, 403, "Отсутсвует access токен", req.headers, "Проблемы с некоторыми данными"));
+            Error_handler_1.default.handle(res, 403, "Отсутсвует access токен", req.headers, "Проблемы с некоторыми данными");
+            return next(403);
         }
         const data = (0, jwt_service_1.verifyToken)(access[1]);
         if (!data) {
-            return next(Error_handler_1.default.handle(res, 403, "Невалидный токен", { verify: data, token: exist }, "Нелегал найден, депортировать"));
+            Error_handler_1.default.handle(res, 403, "Невалидный токен", { verify: data, token: exist }, "Нелегал найден, депортировать");
+            return next(403);
         }
         req.body.user = data;
         next();
@@ -28,4 +32,5 @@ const CheckToken = (req, res, next) => {
     }
 };
 exports.CheckToken = CheckToken;
+exports.default = exports.CheckToken;
 //# sourceMappingURL=jwt-check-middleware.js.map

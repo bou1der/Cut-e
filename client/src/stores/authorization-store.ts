@@ -13,15 +13,15 @@ interface AuthStoreInterface{
 class AuthorizationStore implements AuthStoreInterface{
 
     isAuth = false
-    isAuthProgress = false
+    isAuthProgress = true
     constructor() {
         makeAutoObservable(this,{},{autoBind:true})
     }
     async Login(loginValue: string, passwordValue: string) {
         this.isAuthProgress = true
         try {
-            this.isAuth = true
-            return
+            // this.isAuth = true
+            // return
             const res = await login(loginValue,passwordValue)
             localStorage.setItem('access',res.data.tokens.access)
             this.isAuth = true
@@ -34,8 +34,8 @@ class AuthorizationStore implements AuthStoreInterface{
     async Register(nicknameValue: string, loginValue: string, passwordValue: string) {
         this.isAuthProgress = true
         try {
-            this.isAuth = true
-            return
+            // this.isAuth = true
+            // return
             const res = await register(nicknameValue,loginValue,passwordValue)
             localStorage.setItem('access',res.data.tokens.access)
             this.isAuth = true
@@ -48,8 +48,8 @@ class AuthorizationStore implements AuthStoreInterface{
     async CheckAuth():Promise<void> {
         this.isAuthProgress = true
         try {
-            this.isAuth = true
-            return
+            // this.isAuth = true
+            // return
             const res = await refresh()
             localStorage.setItem('access',res.data.tokens.access)
             this.isAuth = true

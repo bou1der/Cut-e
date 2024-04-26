@@ -8,12 +8,12 @@ export const register = async (req:Request,res:Response) =>{
     try{
         const {nickname,login,password} = req.body
         const exist = await User.findOne({where:{login}})
-        if(!exist){
+        if(exist){
             return error.handle(res,500,"Пользователь уже существует",{login,password,exist},"Ошибка выберите другой логин")
         }
         const hash :string = await bcrypt.hash(password,10)
-        const user = await User.create({nickname,login,password})
-        const tokens = await genTokenHandler({id:user.dataValues.id, name:user.dataValues.nickname, admin:user.dataValues.admin})
+        const user = await User.create({nickname,login,password:hash})
+        const tokens = genTokenHandler({id:user.dataValues.id, name:user.dataValues.nickname, admin:user.dataValues.admin})
 
         await saveToken(user.dataValues.id,tokens.refresh)
 
@@ -38,6 +38,8 @@ export const login = async (req:Request,res:Response) =>{
         const tokens = genTokenHandler({id:exist.dataValues.id,name:exist.dataValues.nickname,admin:exist.dataValues.admin})
         await saveToken(exist.dataValues.id,tokens.refresh)
 
+        console.log(tokens)
+
         res.cookie('refresh',tokens.refresh, {maxAge:1728000,httpOnly:true})
         res.status(200).json({tokens})
     }catch (err) {
@@ -47,20 +49,25 @@ export const login = async (req:Request,res:Response) =>{
 export const refresh = async (req:Request,res:Response) =>{
     try {
         const {refresh} = req.cookies
-
         if(!refresh){
             return error.handle(res,404,"Отсутствует refresh токен",req.cookies,"Ненайденны некоторые данные")
         }
         const userData = verifyToken(refresh,true)
-        console.log(userData)
         const token = await Token.findOne({where:{refresh}})
         if(!userData || !token){
-            return error.handle(res,404,"Пользователь ненайден",req.body)
-        }
-        // const user = await User.findOne({where:{id:userData.id}})
 
+            return error.handle(res,404,"Пользователь ненайден", {token,userData})
+        }
+        const user = await User.findOne({where:{id:userData.id}})
+        if (!user){
+            return error.handle(res,404,"Пользователь ненайден", {token,userData})
+        }
+        const tokens = genTokenHandler({id:user.dataValues.id,name:user.dataValues.nickname,admin:user.dataValues.admin})
+        await saveToken(user.dataValues.id,tokens.refresh)
+        res.cookie('refresh',tokens.refresh, {maxAge:1728000,httpOnly:true})
+        res.status(200).json({tokens})
     }catch (err) {
-         error.handle(res,500,err as object, req.body,"Непредвиденная ошибка")
+         error.handle(res,500, err as object, req.body,"Непредвиденная ошибка")
     }
 }
 export const logout = async (req:Request,res:Response) =>{

@@ -8,19 +8,18 @@ const jwt_token_model_1 = __importDefault(require("../models/jwt-token-model"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_json_1 = __importDefault(require("../../config.json"));
 const genTokenHandler = (payload) => {
+    const access = jsonwebtoken_1.default.sign(payload, config_json_1.default.JWT.AccessKey, { expiresIn: '20m' });
     const refresh = jsonwebtoken_1.default.sign(payload, config_json_1.default.JWT.RefreshKey, { expiresIn: '20d' });
-    const access = jsonwebtoken_1.default.sign(payload, config_json_1.default.JWT.RefreshKey, { expiresIn: '20d' });
     return {
-        refresh,
-        access
+        refresh, access
     };
 };
 exports.genTokenHandler = genTokenHandler;
 const saveToken = async (userId, refresh) => {
     const exist = await jwt_token_model_1.default.findOne({ where: { id: userId } });
     if (exist) {
-        exist.dataValues.refresh = refresh;
-        return exist.save();
+        await exist.update({ refresh });
+        return;
     }
     return await jwt_token_model_1.default.create({ id: userId, refresh });
 };

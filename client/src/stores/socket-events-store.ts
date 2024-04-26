@@ -2,10 +2,12 @@ import {} from "mobx"
 import {} from "socket.io-client"
 import config from "../../config.json"
 import * as SocketIO from "socket.io-client"
+
 // interface SocketInterface {
 //     _socket:SocketIO.Socket
 //     connect():void
 // }
+
 class SocketStore {
     private _socket:SocketIO.Socket
     constructor() {

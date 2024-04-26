@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
--- Хост: 127.0.0.1
--- Время создания: Апр 24 2024 г., 19:19
--- Версия сервера: 10.4.32-MariaDB
--- Версия PHP: 8.2.12
+-- Хост: 127.0.0.1:3306
+-- Время создания: Апр 26 2024 г., 13:57
+-- Версия сервера: 8.0.24
+-- Версия PHP: 8.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `activity` (
-  `id` int(11) NOT NULL,
-  `SocketId` varchar(22) DEFAULT NULL,
-  `isActive` tinyint(1) NOT NULL DEFAULT 0,
-  `createdAt` text NOT NULL,
-  `updatedAt` int(11) NOT NULL
+  `id` int NOT NULL,
+  `SocketId` varchar(22) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `isActive` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` text COLLATE utf8mb4_general_ci NOT NULL,
+  `updatedAt` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -46,7 +46,8 @@ INSERT INTO `activity` (`id`, `SocketId`, `isActive`, `createdAt`, `updatedAt`) 
 (18, NULL, 0, '', 0),
 (19, NULL, 0, '', 0),
 (20, NULL, 0, '', 0),
-(21, NULL, 0, '', 0);
+(21, NULL, 0, '', 0),
+(22, NULL, 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -55,13 +56,13 @@ INSERT INTO `activity` (`id`, `SocketId`, `isActive`, `createdAt`, `updatedAt`) 
 --
 
 CREATE TABLE `chats` (
-  `chatid` int(11) NOT NULL,
-  `name` text DEFAULT NULL,
-  `users` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`users`)),
+  `chatid` int NOT NULL,
+  `name` text COLLATE utf8mb4_general_ci,
+  `users` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
   `isGroup` tinyint(1) NOT NULL,
-  `createdAt` text DEFAULT NULL,
-  `updatedAt` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `createdAt` text COLLATE utf8mb4_general_ci,
+  `updatedAt` text COLLATE utf8mb4_general_ci
+) ;
 
 --
 -- Дамп данных таблицы `chats`
@@ -78,40 +79,14 @@ INSERT INTO `chats` (`chatid`, `name`, `users`, `isGroup`, `createdAt`, `updated
 --
 
 CREATE TABLE `messages` (
-  `messageId` int(11) NOT NULL,
-  `chatId` int(11) NOT NULL,
-  `text` text DEFAULT ' ',
-  `sendTime` timestamp NOT NULL DEFAULT current_timestamp(),
-  `fromUser` int(11) NOT NULL,
-  `createdAt` text NOT NULL,
-  `updatedAt` text NOT NULL
+  `id` int NOT NULL,
+  `chatId` int NOT NULL,
+  `text` text COLLATE utf8mb4_general_ci,
+  `timeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `from` int NOT NULL,
+  `createdAt` text COLLATE utf8mb4_general_ci NOT NULL,
+  `updatedAt` text COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Дамп данных таблицы `messages`
---
-
-INSERT INTO `messages` (`messageId`, `chatId`, `text`, `sendTime`, `fromUser`, `createdAt`, `updatedAt`) VALUES
-(1, 3, 'Саси', '2024-02-29 13:09:19', 2, '', ''),
-(2, 3, ' сасу', '2024-02-29 13:42:09', 17, '', ''),
-(3, 3, ' Ну соси соси', '2024-02-29 13:42:09', 2, '', ''),
-(4, 2, 'I love this messenger', '2024-02-29 13:09:19', 3, '', ''),
-(5, 2, 'but he’s real shit, how can you love him?', '2024-02-29 13:42:09', 2, '', ''),
-(6, 2, 'Don\'t love your mother, you stupid monkey, go out the window, please. The whole world is hungry for this, you fucking incompetence', '2024-02-29 13:42:09', 3, '', ''),
-(7, 2, 'sorry...', '2024-02-29 13:42:09', 2, '', ''),
-(8, 3, 'фывфывфыв', '2024-03-05 17:42:44', 2, '2024-03-05 17:42:44', '2024-03-05 17:42:44'),
-(9, 3, 'Ну да, сообщения теперь и сохраняються в бд', '2024-03-05 17:43:13', 2, '2024-03-05 17:43:13', '2024-03-05 17:43:13'),
-(10, 3, 'Да, я вижу\n', '2024-03-05 17:43:36', 17, '2024-03-05 17:43:36', '2024-03-05 17:43:36'),
-(11, 3, 'Ну слушай, мессенжер сам по сути готов ', '2024-03-05 17:43:53', 17, '2024-03-05 17:43:53', '2024-03-05 17:43:53'),
-(12, 3, 'Может мы отвелемся на что то по типу, нуууууууу даже не знаю', '2024-03-05 17:44:10', 17, '2024-03-05 17:44:10', '2024-03-05 17:44:10'),
-(13, 3, 'допустим РЕЗЮМЕ?????????????', '2024-03-05 17:44:21', 17, '2024-03-05 17:44:21', '2024-03-05 17:44:21'),
-(14, 3, 'Может пойдешь нахуй? :/\n', '2024-03-05 17:44:42', 2, '2024-03-05 17:44:42', '2024-03-05 17:44:42'),
-(15, 2, 'ХАХАХАХАХАХА ВЫСОСИТЕ, ТЕПЕРЬ ЭТО СООБЩЕНИЕ НЕ ИСЧЕЗНЕТ\n', '2024-03-05 17:45:38', 2, '2024-03-05 17:45:38', '2024-03-05 17:45:38'),
-(16, 3, 'фывфыв', '2024-03-05 17:47:02', 2, '2024-03-05 17:47:02', '2024-03-05 17:47:02'),
-(17, 3, '121212', '2024-03-05 17:47:36', 2, '2024-03-05 17:47:36', '2024-03-05 17:47:36'),
-(18, 3, 'asdasdas', '2024-03-05 17:54:38', 2, '2024-03-05 17:54:38', '2024-03-05 17:54:38'),
-(19, 3, 'я...\n', '2024-04-20 11:03:39', 2, '2024-04-20 11:03:39', '2024-04-20 11:03:39'),
-(20, 3, 'сделал резюме.....', '2024-04-20 11:03:46', 2, '2024-04-20 11:03:46', '2024-04-20 11:03:46');
 
 -- --------------------------------------------------------
 
@@ -120,10 +95,10 @@ INSERT INTO `messages` (`messageId`, `chatId`, `text`, `sendTime`, `fromUser`, `
 --
 
 CREATE TABLE `tokens` (
-  `id` int(64) NOT NULL,
-  `refresh` varchar(256) DEFAULT NULL,
-  `createdAt` varchar(256) NOT NULL,
-  `updatedAt` varchar(256) NOT NULL
+  `id` int NOT NULL,
+  `refresh` varchar(256) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `createdAt` varchar(256) COLLATE utf8mb4_general_ci NOT NULL,
+  `updatedAt` varchar(256) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -151,7 +126,8 @@ INSERT INTO `tokens` (`id`, `refresh`, `createdAt`, `updatedAt`) VALUES
 (18, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsIm5hbWUiOiIiLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTcxMzg5MzE3NywiZXhwIjoxNzE1NjIxMTc3fQ.pxfYUT1O8BmD8E0ohD0ZZCgBih2k52RKfG_3aTS7xGk', '2024-04-23 17:26:17', '2024-04-23 17:26:17'),
 (19, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksIm5hbWUiOiIiLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTcxMzg5MzI1MSwiZXhwIjoxNzE1NjIxMjUxfQ.tr_a3gsQaXzoUpkwHca9z5TcxPv2YqgAx9BV1_iBYTY', '2024-04-23 17:27:31', '2024-04-23 17:27:31'),
 (20, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsIm5hbWUiOiIiLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTcxMzg5MzI4MiwiZXhwIjoxNzE1NjIxMjgyfQ.GGsrEQl_FnSPlsxqI7lKIZj3IyBLI2mfeVnZFR3K5nA', '2024-04-23 17:28:02', '2024-04-23 17:28:02'),
-(21, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsIm5hbWUiOiIiLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTcxMzg5MzM3OSwiZXhwIjoxNzE1NjIxMzc5fQ.LPjbjFZOYbVQSuUHBHsS9wV5kfS1pan5nMVt21K7soE', '2024-04-23 17:29:39', '2024-04-23 17:29:39');
+(21, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsIm5hbWUiOiIiLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTcxMzg5MzM3OSwiZXhwIjoxNzE1NjIxMzc5fQ.LPjbjFZOYbVQSuUHBHsS9wV5kfS1pan5nMVt21K7soE', '2024-04-23 17:29:39', '2024-04-23 17:29:39'),
+(22, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjIsIm5hbWUiOiJ0ZXN0MTIxMjExMTEyMTExNSIsImFkbWluIjpmYWxzZSwiaWF0IjoxNzE0MTI4OTM5LCJleHAiOjE3MTU4NTY5Mzl9.m6d9i-VmvyG_y4pekEybBtzf4np3XwPQ035qqeqaOOk', '2024-04-26 10:55:39', '2024-04-26 10:55:39');
 
 -- --------------------------------------------------------
 
@@ -160,13 +136,13 @@ INSERT INTO `tokens` (`id`, `refresh`, `createdAt`, `updatedAt`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `nickname` text NOT NULL,
-  `login` varchar(64) NOT NULL,
-  `password` varchar(64) NOT NULL,
-  `admin` tinyint(1) NOT NULL DEFAULT 0,
-  `createdAt` text NOT NULL,
-  `updatedAt` text NOT NULL
+  `id` int NOT NULL,
+  `nickname` text COLLATE utf8mb4_general_ci NOT NULL,
+  `login` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` text COLLATE utf8mb4_general_ci NOT NULL,
+  `updatedAt` text COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -184,7 +160,8 @@ INSERT INTO `users` (`id`, `nickname`, `login`, `password`, `admin`, `createdAt`
 (18, '', 'boulder1111123131', '23091987', 0, '', ''),
 (19, '', 'aaaaaaaaaaaaa', '12222', 0, '', ''),
 (20, '', 'aaaaaaaaaaaaa1', '12222', 0, '', ''),
-(21, '', 'test1212', '23091987', 0, '', '');
+(21, '', 'test1212', '23091987', 0, '', ''),
+(22, 'test1212111121115', '521', '52', 0, '2024-04-26 10:55:39', '2024-04-26 10:55:39');
 
 --
 -- Триггеры `users`
@@ -215,7 +192,7 @@ ALTER TABLE `chats`
 -- Индексы таблицы `messages`
 --
 ALTER TABLE `messages`
-  ADD PRIMARY KEY (`messageId`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `users`
@@ -231,19 +208,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `chats`
 --
 ALTER TABLE `chats`
-  MODIFY `chatid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `chatid` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `messageId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
