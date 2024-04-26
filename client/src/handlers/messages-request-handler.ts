@@ -1,5 +1,6 @@
 import api from "../service/axios.ts";
 import {AxiosResponse} from "axios"
-export const getChats = () =>{
+export const fetchChats = async ():Promise<[]> =>{
     const chats = api.post("Ссылка")
+    return []
 }
