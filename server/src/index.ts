@@ -2,6 +2,8 @@
 import app from "./server";
 import config from "../config.json"
 import http from 'http';
+// import dotenv from "dotenv"
+// dotenv.config()
 const server = http.createServer(app)
 
 

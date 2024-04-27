@@ -56,7 +56,7 @@ const refresh = async (req, res) => {
         if (!refresh) {
             return Error_handler_1.default.handle(res, 404, "Отсутствует refresh токен", req.cookies, "Ненайденны некоторые данные");
         }
-        const userData = (0, jwt_service_1.verifyToken)(refresh, true);
+        const userData = (0, jwt_service_1.verifyRefreshToken)(refresh);
         const token = await jwt_token_model_1.default.findOne({ where: { refresh } });
         if (!userData || !token) {
             return Error_handler_1.default.handle(res, 404, "Пользователь ненайден", { token, userData });

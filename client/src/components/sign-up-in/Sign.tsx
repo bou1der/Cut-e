@@ -385,7 +385,9 @@ export default observer(Sign)
 function List(){
     const front = document.querySelector('.front');
     const back  = document.querySelector('.back');
-
+    if (front === null || back === null){
+        return
+    }
     i++
     if(i % 2 === 0)
     {

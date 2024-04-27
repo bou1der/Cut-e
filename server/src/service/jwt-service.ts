@@ -1,7 +1,6 @@
 import Token from "../models/jwt-token-model"
 import jsonwebtoken,{JwtPayload} from "jsonwebtoken"
 import config from "../../config.json"
-import Tokens from "../models/jwt-token-model";
 type PayloadToken = {
     id:number
     name:string
@@ -9,7 +8,7 @@ type PayloadToken = {
 
 }
 export const genTokenHandler =(payload:PayloadToken) :{refresh:string, access:string} =>{
-    const access:string = jsonwebtoken.sign(payload, config.JWT.AccessKey,{expiresIn:'20m'})
+    const access:string = jsonwebtoken.sign(payload, config.JWT.AccessKey,{expiresIn:'10s'})
     const refresh:string = jsonwebtoken.sign(payload, config.JWT.RefreshKey,{expiresIn:'20d'})
     return {
         refresh,access
@@ -30,11 +29,22 @@ export const logoutToken = async (refresh:string)=>{
     }
     await exist.update({refresh:""})
 }
-export const verifyToken = (token:any,isRefresh?:boolean) =>{
-    if (isRefresh){
-
-        const data = jsonwebtoken.verify(token,config.JWT.RefreshKey)
-        return (<any>data)
+export const verifyRefreshToken =  (token: string) => {
+    try{
+      const tokenData =  jsonwebtoken.verify(token,config.JWT.RefreshKey);
+      return tokenData as any;
+    }catch (e){
+        console.log(e)
+        return null;
     }
-    return jsonwebtoken.verify(token,config.JWT.AccessKey)
+}
+
+export const verifyAccessToken = (token:string) =>{
+    try{
+      const tokenData = jsonwebtoken.verify(token,config.JWT.AccessKey)
+      return tokenData;
+    }catch (e){
+        console.log(e)
+        return null;
+    }
 }

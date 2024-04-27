@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyToken = exports.logoutToken = exports.saveToken = exports.genTokenHandler = void 0;
+exports.verifyAccessToken = exports.verifyRefreshToken = exports.logoutToken = exports.saveToken = exports.genTokenHandler = void 0;
 const jwt_token_model_1 = __importDefault(require("../models/jwt-token-model"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_json_1 = __importDefault(require("../../config.json"));
 const genTokenHandler = (payload) => {
-    const access = jsonwebtoken_1.default.sign(payload, config_json_1.default.JWT.AccessKey, { expiresIn: '20m' });
+    const access = jsonwebtoken_1.default.sign(payload, config_json_1.default.JWT.AccessKey, { expiresIn: '10s' });
     const refresh = jsonwebtoken_1.default.sign(payload, config_json_1.default.JWT.RefreshKey, { expiresIn: '20d' });
     return {
         refresh, access
@@ -32,12 +32,26 @@ const logoutToken = async (refresh) => {
     await exist.update({ refresh: "" });
 };
 exports.logoutToken = logoutToken;
-const verifyToken = (token, isRefresh) => {
-    if (isRefresh) {
-        const data = jsonwebtoken_1.default.verify(token, config_json_1.default.JWT.RefreshKey);
-        return data;
+const verifyRefreshToken = (token) => {
+    try {
+        const tokenData = jsonwebtoken_1.default.verify(token, config_json_1.default.JWT.RefreshKey);
+        return tokenData;
     }
-    return jsonwebtoken_1.default.verify(token, config_json_1.default.JWT.AccessKey);
+    catch (e) {
+        console.log(e);
+        return null;
+    }
 };
-exports.verifyToken = verifyToken;
+exports.verifyRefreshToken = verifyRefreshToken;
+const verifyAccessToken = (token) => {
+    try {
+        const tokenData = jsonwebtoken_1.default.verify(token, config_json_1.default.JWT.AccessKey);
+        return tokenData;
+    }
+    catch (e) {
+        console.log(e);
+        return null;
+    }
+};
+exports.verifyAccessToken = verifyAccessToken;
 //# sourceMappingURL=jwt-service.js.map

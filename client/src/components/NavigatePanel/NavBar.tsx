@@ -9,6 +9,8 @@ import sendMessege from './resource/sendMessege.svg'
 import myProfile from './resource/myProfile.svg'
 import myGroups from './resource/myGroups.svg'
 
+import authorizationStore from "../../stores/authorization-store";
+
 const Navigation = () => {
 
     return(<header className={"header"}>
@@ -20,6 +22,9 @@ const Navigation = () => {
                     <NavLink to={"/messages"} className={"listButton navig"}><img alt={""} src={sendMessege}/></NavLink>
                     <NavLink to={"/friends"} className={"listButton navig"}><img alt={""} src={friends}/></NavLink>
                     <NavLink to={"/groups"} className={"listButton navig"}><img alt={""} src={myGroups}/></NavLink>
+                    <button onClick={()=>{
+                        authorizationStore.Logout()
+                    }}>Logout</button>
                 </div>
             </div>
 

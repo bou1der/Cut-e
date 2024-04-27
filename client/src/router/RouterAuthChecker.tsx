@@ -5,7 +5,10 @@ import authorizationStore from "../stores/authorization-store.ts";
 
 const CheckerRouter = ({}) =>{
 
-
+    useEffect(()=>{
+        // console.log("Проверка")
+        // authorizationStore.CheckAuth()
+    },[])
     if (authorizationStore.isAuthProgress){
         return <div>///Loading///</div>
     }

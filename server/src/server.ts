@@ -4,12 +4,11 @@ import cors,{} from "cors"
 import dotenv from "dotenv";
 const app: Express = express();
 
-import config from "../config.json"
 // routes
 import authorization from "./routes/authorization-router"
 import messanger from "./routes/messanger-router"
 // routes
-import JWTMiddleware from "./middlewares/jwt-check-middleware"
+import CheckToken from "./middlewares/jwt-check-middleware"
 dotenv.config()
 // http://localhost:3000/
 app.use(cors({
@@ -20,6 +19,6 @@ app.use(cors({
 app.use(cookieParser())
 
 app.use('/api/authorization',authorization)
-app.use('/api/messanger/',JWTMiddleware,messanger)
+app.use('/api/messanger/',CheckToken,messanger)
 
-export default   app
+export default app

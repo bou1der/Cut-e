@@ -1,36 +1,27 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CheckToken = void 0;
-const Error_handler_1 = __importDefault(require("../service/Error-handler"));
 const jwt_service_1 = require("../service/jwt-service");
-const CheckToken = (req, res, next) => {
+const CheckToken = async (req, res, next) => {
     try {
-        const exist = req.headers.authorization;
-        if (!exist) {
-            Error_handler_1.default.handle(res, 403, "Отсутсвует access токен", req.headers, "Проблемы с некоторыми данными");
-            return next(403);
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return next(res.status(403).json({ message: 'Пользователь не зарегистрирован' }));
         }
-        const access = exist.split(' ');
-        console.log(access);
-        if (!access[1] || access[1] === null) {
-            Error_handler_1.default.handle(res, 403, "Отсутсвует access токен", req.headers, "Проблемы с некоторыми данными");
-            return next(403);
+        const accessToken = authHeader.split(' ');
+        if (!accessToken[1] || accessToken[1] === 'null') {
+            return next(res.status(403).json({ message: 'Пользователь не зарегистрирован' }));
         }
-        const data = (0, jwt_service_1.verifyToken)(access[1]);
+        const data = (0, jwt_service_1.verifyAccessToken)(accessToken[1]);
         if (!data) {
-            Error_handler_1.default.handle(res, 403, "Невалидный токен", { verify: data, token: exist }, "Нелегал найден, депортировать");
-            return next(403);
+            return next(res.status(403).json({ message: 'Пользователь не зарегистрирован' }));
         }
-        req.body.user = data;
+        req.user = { id: data.id };
         next();
     }
-    catch (err) {
-        Error_handler_1.default.handle(res, 500, err, req.headers, "Непредвиденная ошибка сервера");
+    catch (e) {
+        console.log(e);
+        return next(res.status(500).json({ error: `${e}` }));
     }
 };
-exports.CheckToken = CheckToken;
-exports.default = exports.CheckToken;
+exports.default = CheckToken;
 //# sourceMappingURL=jwt-check-middleware.js.map

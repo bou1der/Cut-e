@@ -1,7 +1,7 @@
 import express,{Request,Response} from "express";
 import bcrypt from "bcrypt"
 import error from "../service/Error-handler";
-import {genTokenHandler, saveToken, logoutToken,verifyToken} from "../service/jwt-service"
+import {genTokenHandler, saveToken, logoutToken,verifyRefreshToken} from "../service/jwt-service"
 import User from "../models/users-model";
 import Token from "../models/jwt-token-model"
 export const register = async (req:Request,res:Response) =>{
@@ -52,10 +52,9 @@ export const refresh = async (req:Request,res:Response) =>{
         if(!refresh){
             return error.handle(res,404,"Отсутствует refresh токен",req.cookies,"Ненайденны некоторые данные")
         }
-        const userData = verifyToken(refresh,true)
+        const userData = verifyRefreshToken(refresh)
         const token = await Token.findOne({where:{refresh}})
         if(!userData || !token){
-
             return error.handle(res,404,"Пользователь ненайден", {token,userData})
         }
         const user = await User.findOne({where:{id:userData.id}})

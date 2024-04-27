@@ -1,5 +1,6 @@
-import {Model,Optional, DataTypes} from "sequelize"
 import connection from "./sequelize-connect"
+import {Model,Optional, DataTypes} from "sequelize"
+
 
 interface ChatAttributes{
     id:number
@@ -27,6 +28,14 @@ Chats.init(
         name:{
             type:DataTypes.STRING,
             allowNull:true,
+
+            get(): void {
+                const test = this.getDataValue('name')
+                console.log("++++++++++++++++++++++++++++++++++++++++++++++++")
+            },
+            set(val: unknown) {
+                console.log(val)
+            }
         },
         users:{
             type:DataTypes.JSON,

@@ -4,10 +4,13 @@ type Chats = []
 class MessageStore {
     public chats: Chats
     constructor() {
-       this.fetchChats()
+    
     }
-    private async  fetchChats(){
+    async  fetchChats(){
         this.chats = await fetchChats()
+        console.log(this.chats)
     }
 
 }
+
+export default new MessageStore()
