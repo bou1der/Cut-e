@@ -1,13 +1,12 @@
 import express,{Router,Request,Response} from "express";
 const router:Router = express.Router();
 const JsonParser = express.json()
-
 // controller
 import {login, register,refresh,logout} from "../controllers/authorization-controller";
 // controller
 
 router.post("/register",JsonParser, async (req: Request,res: Response)=>{
-    register(req,res)
+    return await register(req,res)
 })
 router.post("/login",JsonParser,async (req:Request,res:Response)=>{
     return await login(req,res)

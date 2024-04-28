@@ -38,8 +38,6 @@ export const login = async (req:Request,res:Response) =>{
         const tokens = genTokenHandler({id:exist.dataValues.id,name:exist.dataValues.nickname,admin:exist.dataValues.admin})
         await saveToken(exist.dataValues.id,tokens.refresh)
 
-        console.log(tokens)
-
         res.cookie('refresh',tokens.refresh, {maxAge:1728000,httpOnly:true})
         res.status(200).json({tokens})
     }catch (err) {

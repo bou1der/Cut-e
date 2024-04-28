@@ -10,7 +10,7 @@ const JsonParser = express_1.default.json();
 const authorization_controller_1 = require("../controllers/authorization-controller");
 // controller
 router.post("/register", JsonParser, async (req, res) => {
-    (0, authorization_controller_1.register)(req, res);
+    return await (0, authorization_controller_1.register)(req, res);
 });
 router.post("/login", JsonParser, async (req, res) => {
     return await (0, authorization_controller_1.login)(req, res);

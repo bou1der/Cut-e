@@ -1,6 +1,20 @@
 import api from "../service/axios.ts";
-import {AxiosResponse} from "axios"
-export const fetchChats = async ():Promise<[]> =>{
-    const chats = api.post("/messanger/chats")
-    return []
+import {chat,message} from "../types/axios-response-types.ts";
+
+interface userChats {
+    chats:chat[]
+    id:number
+}
+interface messageResponse{
+    messages:message[]
+}
+
+export const fetchChats = async ():Promise<userChats> =>{
+    const res = await api.post<Promise<userChats>>("/messanger/chats")
+    // console.log(res.data)
+    return res.data
+}
+export const fetchMessages = async (id:number):Promise<messageResponse> =>{
+    const res = await api.post<Promise<messageResponse>>("/messanger/messages",{id})
+    return res.data
 }

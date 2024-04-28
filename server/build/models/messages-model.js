@@ -34,8 +34,8 @@ Messages.init({
     }
 }, {
     sequelize: sequelize_connect_1.default,
-    tableName: "chats",
-    modelName: "chats"
+    tableName: "messages",
+    modelName: "messages"
 });
 exports.default = Messages;
 //# sourceMappingURL=messages-model.js.map

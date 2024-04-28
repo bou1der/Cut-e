@@ -41,7 +41,6 @@ const login = async (req, res) => {
         }
         const tokens = (0, jwt_service_1.genTokenHandler)({ id: exist.dataValues.id, name: exist.dataValues.nickname, admin: exist.dataValues.admin });
         await (0, jwt_service_1.saveToken)(exist.dataValues.id, tokens.refresh);
-        console.log(tokens);
         res.cookie('refresh', tokens.refresh, { maxAge: 1728000, httpOnly: true });
         res.status(200).json({ tokens });
     }

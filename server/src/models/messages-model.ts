@@ -47,8 +47,8 @@ Messages.init(
     },
     {
         sequelize:connection,
-        tableName:"chats",
-        modelName:"chats"
+        tableName:"messages",
+        modelName:"messages"
     }
 )
 

@@ -5,20 +5,24 @@ import CheckerRouter from "./router/RouterAuthChecker.tsx";
 
 import SignPage from "./components/sign-up-in/Sign.tsx"
 import NavigatePanel from "./components/NavigatePanel/NavBar.tsx"
+import MessagesPage from "./components/messeges/messegesPage.tsx"
 
 
 import {observer} from "mobx-react-lite"
 import SocketStore from "./stores/socket-events-store.ts";
-import { fetchChats } from "./handlers/messages-request-handler.ts";
 import messageStore from "./stores/message-store.ts";
+
 
 const PrivateRouter = observer(() =>{
 
     useEffect(() => {
+
         const fetch = async () :Promise<void> =>{
             await AuthStore.CheckAuth()
-            // SocketStore.connect()
-            messageStore.fetchChats()
+            if (AuthStore.isAuth){
+                // SocketStore.connect()
+                await messageStore.fetchChats()
+            }
         }
         fetch()
     }, [/*AuthStore.isAuth*/]);
@@ -42,7 +46,7 @@ const PrivateRouter = observer(() =>{
                                     <Route path={""} element={<h1>Новости</h1>}/>
                                 </Route>
                                 <Route path={"/messages"} element={<CheckerRouter/>}>
-                                    <Route path="" element={<button style={{position:"absolute",right:"0px"}} onClick={() => fetchChats()}>Fetch</button>}/>
+                                    <Route path="" element={<MessagesPage/>}/>
                                 </Route>
                                 <Route path={"/friends"} element={<CheckerRouter/>}>
                                     <Route path="" element={<div>Твои друзья(Если они есть)</div>}/>

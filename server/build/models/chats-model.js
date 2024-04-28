@@ -17,26 +17,22 @@ Chats.init({
     name: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: true,
-        get() {
-            const test = this.getDataValue('name');
-            console.log("++++++++++++++++++++++++++++++++++++++++++++++++");
-        },
-        set(val) {
-            console.log(val);
-        }
     },
     users: {
         type: sequelize_1.DataTypes.JSON,
-        allowNull: true
+        allowNull: true,
     },
     isGroup: {
         type: sequelize_1.DataTypes.BOOLEAN,
-        allowNull: false
+        allowNull: false,
+    },
+    members: {
+        type: sequelize_1.DataTypes.VIRTUAL
     }
 }, {
     sequelize: sequelize_connect_1.default,
     tableName: "chats",
-    modelName: "chats"
+    modelName: "chats",
 });
 exports.default = Chats;
 //# sourceMappingURL=chats-model.js.map
