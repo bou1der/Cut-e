@@ -8,7 +8,7 @@ const jwt_token_model_1 = __importDefault(require("../models/jwt-token-model"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_json_1 = __importDefault(require("../../config.json"));
 const genTokenHandler = (payload) => {
-    const access = jsonwebtoken_1.default.sign(payload, config_json_1.default.JWT.AccessKey, { expiresIn: '10m' });
+    const access = jsonwebtoken_1.default.sign(payload, config_json_1.default.JWT.AccessKey, { expiresIn: '20m' });
     const refresh = jsonwebtoken_1.default.sign(payload, config_json_1.default.JWT.RefreshKey, { expiresIn: '20d' });
     return {
         refresh, access
