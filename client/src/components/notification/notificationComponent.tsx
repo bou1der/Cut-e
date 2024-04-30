@@ -1,7 +1,7 @@
 import logo from "./resource/user_logo_noborder.svg"
 import messageSvg from "./resource/message-square-notification-svgrepo-com 1.svg"
 
-import notificationStore, {messageNotificate} from "../../stores/notification-store.ts";
+import notificationStore from "../../stores/notification-store.ts";
 import {Component, ReactNode, useEffect} from "react";
 import {GetTextMessage} from "../../stores/socket-events-store.ts";
 const NotificationElement = ({uuid,message}:{uuid:string,message:GetTextMessage}):ReactNode =>{
@@ -26,8 +26,8 @@ const NotificationElement = ({uuid,message}:{uuid:string,message:GetTextMessage}
                     <span className="pop-values">
                         <img src={logo} alt="" className="pop-logo"/>
                         <div>
-                            <h3>{message.name}</h3>
-                            <span><img src={messageSvg} alt=""/><p>{message.text}</p></span>
+                            <h3>{message.chat.name}</h3>
+                            <span><img src={messageSvg} alt=""/><p>{message.message.text}</p></span>
                         </div>
                     </span>
             </div>

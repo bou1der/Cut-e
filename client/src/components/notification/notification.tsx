@@ -17,7 +17,6 @@ const Notification = observer(():ReactNode =>{
                 {
 
                             notificationStore.GetNotifications().map((message)=>{
-
                                 return <NotificationElement uuid={Math.random().toString()} message={message}/>
 
                             })

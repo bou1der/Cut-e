@@ -1,4 +1,5 @@
 import React from 'react'
+
 import SendFilesButtonSrc from "./resource/send_files.svg";
 import SendMessageButtonSrc from "./resource/send_messege.svg";
 import Avatar from "./resource/user_logo_noborder.svg";

@@ -51,11 +51,11 @@ class SocketStore {
     }
     private _onMessages():void{
         this._socket.on("chats:get/message",(message:GetTextMessage)=>{
+            console.log(message)
             messageStore.saveMessage(message)
             if (message.message.from !== messageStore.userId){
                 notificationStore.MessageNotification(message)
             }
-            console.log(message)
         })
     }
 
