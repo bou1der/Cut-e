@@ -10,7 +10,7 @@ const socket_events_1 = require("./socket/socket-events");
 const socket = async (http) => {
     const io = new socket_io_1.default.Server(http, {
         cors: {
-            allowedHeaders: "*",
+            allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
             origin: config_json_1.default.server.cors.origin
         }
     });

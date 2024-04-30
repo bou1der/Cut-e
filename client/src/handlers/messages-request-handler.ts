@@ -11,7 +11,6 @@ interface messageResponse{
 
 export const fetchChats = async ():Promise<userChats> =>{
     const res = await api.post<Promise<userChats>>("/messanger/chats")
-    // console.log(res.data)
     return res.data
 }
 export const fetchMessages = async (id:number):Promise<messageResponse> =>{

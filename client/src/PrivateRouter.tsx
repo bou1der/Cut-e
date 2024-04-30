@@ -10,7 +10,7 @@ import MessagesPage from "./components/messeges/messegesPage.tsx"
 
 import {observer} from "mobx-react-lite"
 import SocketStore from "./stores/socket-events-store.ts";
-import messageStore from "./stores/message-store.ts";
+import MessageStore from "./stores/message-store.ts";
 
 
 const PrivateRouter = observer(() =>{
@@ -19,13 +19,11 @@ const PrivateRouter = observer(() =>{
 
         const fetch = async () :Promise<void> =>{
             await AuthStore.CheckAuth()
-            if (AuthStore.isAuth){
-                // SocketStore.connect()
-                await messageStore.fetchChats()
-            }
+            await MessageStore.fetchChats()
+            await SocketStore.connect()
         }
         fetch()
-    }, [/*AuthStore.isAuth*/]);
+    }, [AuthStore.isAuth]);
 
     return (
         <>

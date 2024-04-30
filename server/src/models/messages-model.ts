@@ -6,17 +6,17 @@ interface MessageAttributes{
     id:number
     chatId:number
     text:string
-    timeStamp:Date
+    timeStamp:string
     from:number
 }
-interface MessageCreateAttributes extends Optional<MessageAttributes, "text"> {}
+interface MessageCreateAttributes extends Optional<MessageAttributes, "text" | "id" | "timeStamp"> {}
 
 class Messages extends Model<MessageAttributes,MessageCreateAttributes> implements MessageAttributes
 {
     public id!:number
     public chatId!:number
     public text!: string
-    public timeStamp!: Date
+    public timeStamp!: string
     public from!: number
 }
 Messages.init(

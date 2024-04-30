@@ -1,33 +1,34 @@
 import {fetchChats, fetchMessages} from "../handlers/messages-request-handler.ts";
 import {makeAutoObservable,toJS} from "mobx";
 import {chat, message} from "../types/axios-response-types.ts";
+import {GetTextMessage} from "./socket-events-store.ts";
 
 export type currentChat = {
     chat:chat,messages:message[]
 }
-interface chatsResponse{
-    chats:chat[]
-    userId:number
-    currentChat:currentChat | null
-    stateDownloadingMessages:boolean
-    _messagesStorage:Map<number,message[]>
+// interface chatsResponse{
+//     chats:chat[]
+//     userId:number
+//     currentChat:currentChat | null
+//     stateDownloadingMessages:boolean
+//     _messagesStorage:Map<number,message[]>
+//
+//     selectChat(id:number):void
+//     GetChats():chat[]
+//     GetCurrentChat():currentChat | null
+//
+//     fetchChats():void
+//     _fetchMessages(id:number):Promise<message[]>
+// }
 
-    selectChat(id:number):void
-    GetChats():chat[]
-    GetCurrentChat():currentChat | null
-
-    fetchChats():void
-    _fetchMessages(id:number):Promise<message[]>
-}
-
-class MessageStore implements chatsResponse{
+class MessageStore {
     public chats:chat[] = []
     public userId:number
     public stateDownloadingMessages:boolean = false
 
     public currentChat:currentChat | null = null
 
-    _messagesStorage:Map<number,message[]> = new Map(/*Отсюда можно брать localstorage данные*/)
+    private _messagesStorage:Map<number,message[]> = new Map(/*Отсюда можно брать localstorage данные*/)
     constructor() {
         makeAutoObservable(this,{},{autoBind:true})
     }
@@ -39,6 +40,19 @@ class MessageStore implements chatsResponse{
             return toJS(this.currentChat)
         }
         return null
+    }
+    public saveMessage(message:GetTextMessage){
+        const storage = this._messagesStorage.get(message.chat.id)
+        if (!storage){
+            return;
+        }
+        if (this.currentChat?.chat.id === message.chat.id){
+            this.currentChat.messages.push(message.message)
+            this._messagesStorage.set(message.chat.id,toJS(this.currentChat.messages))
+            return;
+        }
+        storage.push(message.message)
+        this._messagesStorage.set(message.chat.id,storage)
     }
     public async selectChat(id:number):Promise<void>{
         this.stateDownloadingMessages = true
@@ -55,12 +69,13 @@ class MessageStore implements chatsResponse{
             this.stateDownloadingMessages = false
         }
     }
+    // Метод который записывает принятые от сервера сообщения польвателей юзеру curentchat = null ? _messageStorage
     public async  fetchChats(){
         const res = await fetchChats()
         this.chats =  res.chats
         this.userId = res.id
     }
-    async _fetchMessages(id:number):Promise<message[]>{
+    private async _fetchMessages(id:number):Promise<message[]>{
         const res = await fetchMessages(id)
         return res.messages
     }

@@ -18,7 +18,6 @@ const UserMessages = observer(() => {
     return (
         <div className="content">
             <article className="userMesseges">
-                <button style={{width:"100px",height:"20px"}} onClick={()=>{console.log(messageStore.stateDownloadingMessages)}}></button>
                 {messageStore.chats &&
                     messageStore.GetChats().map(el => {
                         return (

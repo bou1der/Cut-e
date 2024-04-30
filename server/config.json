@@ -2,7 +2,7 @@
   "server": {
     "port": 8000,
     "cors": {
-      "origin": "http://localhost:3000/"
+      "origin": "http://localhost:3000"
     },
     "database": {
       "host": "localhost",

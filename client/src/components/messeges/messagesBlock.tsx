@@ -7,6 +7,7 @@ import SearchButtonSrc from "./resource/search_button.svg";
 import MoreButtonSrc from "./resource/more_button.svg";
 
 import messageStore, {currentChat} from "../../stores/message-store.ts";
+import SocketStore from "../../stores/socket-events-store.ts";
 
 
 function messagesBlock({props}:{props:currentChat | null}){
@@ -49,8 +50,10 @@ function messagesBlock({props}:{props:currentChat | null}){
                 <button><img src={SendFilesButtonSrc} alt=""/></button>
                 <div className="inputMessenge"><textarea value={txtMessage} onChange={(el) =>{
                     setTxtMessage(el.target.value)}} placeholder="Write a messege......"></textarea></div>
-                <button onClick={undefined}
-                    // sendMessage(txtMessage,yourId,setMessages,messages)
+                <button onClick={()=>{
+                    SocketStore.emitMessage(txtMessage)
+                    setTxtMessage('')
+                }}
                 ><img src={SendMessageButtonSrc}  alt=""/></button>
             </span>
         </>
