@@ -21,6 +21,8 @@ app.use((0, cors_1.default)({
     allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization", "Access-Control-Allow-Origin"],
 }));
 app.use((0, cookie_parser_1.default)());
+app.use('/test', () => {
+});
 app.use('/api/authorization', authorization_router_1.default);
 app.use('/api/messanger/', jwt_check_middleware_1.default, messanger_router_1.default);
 exports.default = app;

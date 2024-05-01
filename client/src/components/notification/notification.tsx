@@ -3,8 +3,7 @@ import {observer} from "mobx-react-lite";
 
 import notificationStore from "../../stores/notification-store.ts";
 
-// import "tailwindcss/tailwind.css"
-import "./notification.css"
+// import "./notification.css"
 import NotificationElement from "./notificationComponent.tsx"
 
 

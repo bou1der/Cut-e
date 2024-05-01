@@ -1,7 +1,8 @@
 import React from "react";
 import User from './userInMessageList.tsx'
 import MessagesBlock from "./messagesBlock.tsx"
-import './messegesPage.css'
+
+// import './messegesPage.css'
 
 import {observer} from "mobx-react-lite";
 

@@ -1,7 +1,7 @@
 import {} from "react";
 import {NavLink} from "react-router-dom";
 
-import './NavBar.css';
+// import './NavBar.css';
 
 import uwu from './resource/( ˶^▾^˶ ).svg'
 import friends from './resource/myFriends.svg'

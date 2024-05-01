@@ -1,0 +1,35 @@
+.test {
+    position: relative;
+    width: 100%;
+    height: 500px; /* или любая другая высота, которую вы хотите задать */
+    overflow: hidden;
+}
+.carousel {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    animation: carousel 60s linear infinite;
+}
+
+.carousel-item {
+    flex-shrink: 0;
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.carousel-item img {
+    width: 20px;
+}
+
+@keyframes carousel {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}

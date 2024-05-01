@@ -15,5 +15,10 @@
   "JWT": {
     "RefreshKey": "MyRefreshKey",
     "AccessKey": "MyAccessKey"
+  },
+  "BlobStorage": {
+    "StorageName": "test-cloud-boulder",
+    "BLOB_AUTH_ACCESS_KEY": ".env",
+    "BLOB_AUTH_SECRET_KEY": ".env"
   }
 }

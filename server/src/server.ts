@@ -18,6 +18,10 @@ app.use(cors({
 }))
 app.use(cookieParser())
 
+app.use('/test',()=>{
+
+})
+
 app.use('/api/authorization',authorization)
 app.use('/api/messanger/',CheckToken,messanger)
 

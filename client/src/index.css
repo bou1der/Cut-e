@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-   @apply background-color: black;
+@layer base{
+    body{
+        @apply bg-CreamPink fixed overflow-hidden w-screen h-screen
+    }
+    .input-authorization{
+        @apply w-full h-full shadow-md bg-CreamPink placeholder-BackTextColor placeholder-opacity-15 rounded-sm indent-8 focus:placeholder-opacity-0 focus:outline-none font-MainFont text-18 text-MainTextColor
+    }
+    .list-authorization{
+        @apply w-1/2 h-full absolute right-0 bg-StrongPink shadow-md rounded-lg  rounded-l-sm transition-transform  flex flex-col items-start p-10 justify-between text-MainTextColor font-MainFont text-18 origin-left
+    }
 }
