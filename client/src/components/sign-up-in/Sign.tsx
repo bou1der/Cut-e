@@ -49,28 +49,28 @@ const Sign = ({}) => {
 
     return (
         <>
-            <div className="test absolute">
-                <div className="carousel">
-                    <div className="carousel-item">
-                        <img className="w-20" srcSet={uwu} alt=""/>
-                        <img className="w-20" src={uwu1} alt=""/>
-                        <img className="w-20" src={uwu2} alt=""/>
-                        <img className="w-20" src={uwu} alt=""/>
-                        <img className="w-20" src={uwu3} alt=""/>
-                        <img className="w-20" src={uwu4} alt=""/>
-                        <img className="w-20" src={uwu5} alt=""/>
-                    </div>
-                    <div className="carousel-item">
-                        <img className="" srcSet={uwu} alt=""/>
-                        <img className="" src={uwu1} alt=""/>
-                        <img className="" src={uwu2} alt=""/>
-                        <img className="" src={uwu} alt=""/>
-                        <img className="" src={uwu3} alt=""/>
-                        <img className="" src={uwu4} alt=""/>
-                        <img className="" src={uwu5} alt=""/>
-                    </div>
-                </div>
-            </div>
+            {/*<div className="test absolute">*/}
+            {/*    <div className="carousel">*/}
+            {/*        <div className="carousel-item">*/}
+            {/*            <img className="w-20" srcSet={uwu} alt=""/>*/}
+            {/*            <img className="w-20" src={uwu1} alt=""/>*/}
+            {/*            <img className="w-20" src={uwu2} alt=""/>*/}
+            {/*            <img className="w-20" src={uwu} alt=""/>*/}
+            {/*            <img className="w-20" src={uwu3} alt=""/>*/}
+            {/*            <img className="w-20" src={uwu4} alt=""/>*/}
+            {/*            <img className="w-20" src={uwu5} alt=""/>*/}
+            {/*        </div>*/}
+            {/*        <div className="carousel-item">*/}
+            {/*            <img className="" srcSet={uwu} alt=""/>*/}
+            {/*            <img className="" src={uwu1} alt=""/>*/}
+            {/*            <img className="" src={uwu2} alt=""/>*/}
+            {/*            <img className="" src={uwu} alt=""/>*/}
+            {/*            <img className="" src={uwu3} alt=""/>*/}
+            {/*            <img className="" src={uwu4} alt=""/>*/}
+            {/*            <img className="" src={uwu5} alt=""/>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             {/*<div className="carousel-2">*/}
             {/*    <div className="content-carousel">*/}
             {/*        <img src={uwu} alt=""/>*/}
@@ -224,7 +224,7 @@ const Sign = ({}) => {
                     <div className="flex flex-row h-full">
                         <aside className="w-1/2 h-full">
                             <div className="h-full flex flex-col items-center justify-evenly">
-                                <img src={uwu6} alt=""/>
+                                <img src={`${uwu6}`} alt=""/>
                                 <form className="xl:w-80 flex flex-col gap-5">
                                     <div className="w-full h-12">
                                         <input className="input-authorization" onChange={(el) => {
@@ -259,7 +259,7 @@ const Sign = ({}) => {
                         </aside>
                         <aside className="w-1/2 h-full">
                             <div className="h-full flex flex-col items-center justify-evenly">
-                                <img src={uwu7} alt=""/>
+                                <img src={`${uwu7}`} alt=""/>
                                 <form className="xl:w-80 flex flex-col gap-5">
                                     <div className="w-full h-12">
                                         <input className="input-authorization" type="text" placeholder="Login!"
@@ -287,7 +287,8 @@ const Sign = ({}) => {
                              style={{backfaceVisibility: "hidden"}}>
                             <button
                                 className="w-16 h-16 bg-CreamPink cursor-pointer rounded-md shadow-md hover:brightness-105 active:shadow-none"
-                                onClick={() => List()}>Log-in
+                                onClick={() => List()}>
+                                Sign-Up
                             </button>
                             <div>
                                 <p>
@@ -321,11 +322,11 @@ const Sign = ({}) => {
                                 </div>
                             </div>
                             <div className="flex justify-evenly w-full">
-                                <a href="https://www.google.ru/webhp?hl"><img src={google} alt=""/></a>
-                                <a href="https://web.telegram.org"><img src={telegram} alt=""/></a>
-                                <a href="https://en.wikipedia.org/wiki/Facebook"><img src={facebook} alt=""/></a>
-                                <a href="https://ru.wikipedia.org/wiki/Твиттер"><img src={twitter} alt=""/></a>
-                                <a href="https://vk.com/nir4y"><img src={vk} alt=""/></a>
+                                <a href="https://www.google.ru/webhp?hl"><img src={`${google}`} alt=""/></a>
+                                <a href="https://web.telegram.org"><img src={`${telegram}`} alt=""/></a>
+                                <a href="https://en.wikipedia.org/wiki/Facebook"><img src={`${telegram}`} alt=""/></a>
+                                <a href="https://ru.wikipedia.org/wiki/Твиттер"><img src={`${twitter}`} alt=""/></a>
+                                <a href="https://vk.com/nir4y"><img src={`${vk}`} alt=""/></a>
                             </div>
                         </div>
                         <div id="back" className="list-authorization ease-in-out duration-700">
@@ -333,7 +334,7 @@ const Sign = ({}) => {
                                  className="flex flex-col items-end justify-between h-full ">
                                 <button
                                     className="w-16 h-16 bg-CreamPink cursor-pointer rounded-md shadow-md hover:brightness-105 active:shadow-none"
-                                    onClick={() => List()}>Reg-in
+                                    onClick={() => List()}>Sign-In
                                 </button>
                                 <div className="backTxt">
                                     <p>
@@ -353,11 +354,11 @@ const Sign = ({}) => {
                                     </p>
                                 </div>
                                 <div className="flex justify-evenly w-full">
-                                    <a href="https://www.google.ru/webhp?hl"><img src={google} alt=""/></a>
-                                    <a href="https://web.telegram.org"><img src={telegram} alt=""/></a>
-                                    <a href="https://en.wikipedia.org/wiki/Facebook"><img src={facebook} alt=""/></a>
-                                    <a href="https://ru.wikipedia.org/wiki/Твиттер"><img src={twitter} alt=""/></a>
-                                    <a href="https://vk.com/nir4y"><img src={vk} alt=""/></a>
+                                    <a href="https://www.google.ru/webhp?hl"><img src={`${google}`} alt=""/></a>
+                                    <a href="https://web.telegram.org"><img src={`${telegram}`} alt=""/></a>
+                                    <a href="https://en.wikipedia.org/wiki/Facebook"><img src={`${telegram}`} alt=""/></a>
+                                    <a href="https://ru.wikipedia.org/wiki/Твиттер"><img src={`${twitter}`} alt=""/></a>
+                                    <a href="https://vk.com/nir4y"><img src={`${vk}`} alt=""/></a>
                                 </div>
                             </div>
                         </div>

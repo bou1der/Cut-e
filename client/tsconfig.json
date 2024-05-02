@@ -25,6 +25,6 @@
     "suppressImplicitAnyIndexErrors": false,
     "strictPropertyInitialization": false,
   },
-  "include": ["src"],
+  "include": ["src","src/components", "src/types/custom.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -12,4 +12,23 @@
     .list-authorization{
         @apply w-1/2 h-full absolute right-0 bg-StrongPink shadow-md rounded-lg  rounded-l-sm transition-transform  flex flex-col items-start p-10 justify-between text-MainTextColor font-MainFont text-18 origin-left
     }
+    .navigation-links{
+        @apply hover:bg-HoverButtons p-2 rounded-sm transition-colors
+    }
+    .inner-shadow {
+        box-shadow: inset 0 0 10px 3px rgba(0, 0, 0, 0.10);
+    }
+}
+.active{
+    @apply bg-HoverButtons
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.sender_me{
+    justify-content: end;
 }

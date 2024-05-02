@@ -12,7 +12,7 @@ export default {
       "StrongPink":"#FFC4C4",
       "MainTextColor":"#8A5B4A",
       "BackTextColor":"#FF0000",
-      "HoverButtons":"rgb(0,0,0)"
+      "HoverButtons":"rgb(0,0,0, 0.15)"
     },
     screens:{
       "sm":"640px",
@@ -45,7 +45,11 @@ export default {
     },
 
 
-    extend: {},
+    extend: {
+      boxShadow:{
+        innerShadow:"0 0px 10px 3px rgb(0,0,0,0.25)"
+      }
+    },
   },
   plugins: [],
 }
