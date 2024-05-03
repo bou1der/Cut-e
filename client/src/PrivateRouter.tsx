@@ -11,6 +11,8 @@ import MessagesPage from "./components/messeges/messegesPage.tsx"
 import {observer} from "mobx-react-lite"
 import SocketStore from "./stores/socket-events-store.ts";
 import MessageStore from "./stores/message-store.ts";
+import ProfilePage from "./components/profile/Profile-Page.tsx";
+import messageStore from "./stores/message-store.ts";
 
 
 const PrivateRouter = observer(() =>{
@@ -33,12 +35,13 @@ const PrivateRouter = observer(() =>{
                         <h1>///loading///</h1>
                         :
                         <BrowserRouter>
-                            {!AuthStore.isAuth || <NavigatePanel/>}
+                            {!AuthStore.isAuth || <NavigatePanel userID={messageStore.userId} />}
                             <Routes>
                                 <Route path={"/"} element={<div>Основная ссылка</div>}/>
                                 {AuthStore.isAuth || <Route path={"/authorization"} element={<SignPage/>}/> }
                                 <Route path={"/profile"} element={<CheckerRouter/>}>
-                                    <Route path={""} element={<h1>Профиль</h1>}/>
+                                    <Route path={"/profile/:id"} element={<ProfilePage/>}/>
+                                    <Route path={""} element={<h1>///NotFound///</h1>}/>
                                 </Route>
                                 <Route path={"/news"} element={<CheckerRouter/>}>
                                     <Route path={""} element={<h1>Новости</h1>}/>

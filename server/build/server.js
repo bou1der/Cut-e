@@ -8,9 +8,11 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const app = (0, express_1.default)();
+const blob_files_storage_1 = __importDefault(require("./service/blob-files-storage"));
 // routes
 const authorization_router_1 = __importDefault(require("./routes/authorization-router"));
 const messanger_router_1 = __importDefault(require("./routes/messanger-router"));
+const profiles_routes_1 = __importDefault(require("./routes/profiles-routes"));
 // routes
 const jwt_check_middleware_1 = __importDefault(require("./middlewares/jwt-check-middleware"));
 dotenv_1.default.config();
@@ -21,9 +23,12 @@ app.use((0, cors_1.default)({
     allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization", "Access-Control-Allow-Origin"],
 }));
 app.use((0, cookie_parser_1.default)());
-app.use('/test', () => {
+app.use('/test', (req, res) => {
+    blob_files_storage_1.default.testMethod();
+    res.status(200).json({ da: "da" });
 });
 app.use('/api/authorization', authorization_router_1.default);
-app.use('/api/messanger/', jwt_check_middleware_1.default, messanger_router_1.default);
+app.use('/api/messanger', jwt_check_middleware_1.default, messanger_router_1.default);
+app.use('/api/profile', jwt_check_middleware_1.default, profiles_routes_1.default);
 exports.default = app;
 //# sourceMappingURL=server.js.map

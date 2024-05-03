@@ -41,6 +41,9 @@ class MessageStore {
         }
         return null
     }
+    public ClearCurrentChat(){
+        this.currentChat = null
+    }
     public saveMessage(message:GetTextMessage){
         const storage = this._messagesStorage.get(message.chat.id)
         if (!storage){

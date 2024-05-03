@@ -27,9 +27,13 @@ export default {
       MainFont:["Itim","Noto Sans","cursive"]
     },
     borderRadius:{
+
+      "2sm":"10px",
       sm:"15px",
       md:"20px",
-      lg:"25px"
+      lg:"25px",
+      full:"100px",
+
     },
     fontSize:{
       "10":"10px",
