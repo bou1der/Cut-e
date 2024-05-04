@@ -8,7 +8,7 @@ type PayloadToken = {
 
 }
 export const genTokenHandler =(payload:PayloadToken) :{refresh:string, access:string} =>{
-    const access:string = jsonwebtoken.sign(payload, config.JWT.AccessKey,{expiresIn:'20m'})
+    const access:string = jsonwebtoken.sign(payload, config.JWT.AccessKey,{expiresIn:'10m'})
     const refresh:string = jsonwebtoken.sign(payload, config.JWT.RefreshKey,{expiresIn:'20d'})
     return {
         refresh,access

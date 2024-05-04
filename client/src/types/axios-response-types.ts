@@ -11,3 +11,11 @@ export type message = {
         timeStamp:string
         from:number
 }
+export type profile ={
+        UID:number,
+        name:string,
+        avatar:string | null,
+        background:string | null,
+        isPrivate:boolean,
+        isChannel:boolean
+}

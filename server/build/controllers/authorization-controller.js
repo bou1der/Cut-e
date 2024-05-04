@@ -52,6 +52,7 @@ exports.login = login;
 const refresh = async (req, res) => {
     try {
         const { refresh } = req.cookies;
+        console.log(refresh);
         if (!refresh) {
             return Error_handler_1.default.handle(res, 404, "Отсутствует refresh токен", req.cookies, "Ненайденны некоторые данные");
         }

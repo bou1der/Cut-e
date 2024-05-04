@@ -11,17 +11,17 @@ import messanger from "./routes/messanger-router"
 import profileRouter from "./routes/profiles-routes"
 // routes
 import CheckToken from "./middlewares/jwt-check-middleware"
+import Profile from "./models/profile-model";
+import Storage from "./models/blob-storage-model";
 dotenv.config()
 // http://localhost:3000/
 app.use(cors({
     origin: "http://localhost:3000",
     credentials:true,
-    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization","Access-Control-Allow-Origin"],
+    allowedHeaders: ["Origin", "X-Requested-With","Content-Length", "Content-Type", "Accept", "Authorization","Access-Control-Allow-Origin"],
 }))
 app.use(cookieParser())
-app.use('/test',(req,res)=>{
-    blobFilesStorage.testMethod()
-    res.status(200).json({da:"da"})
+app.use('/test', async (req,res)=>{
 })
 
 app.use('/api/authorization',authorization)

@@ -3,13 +3,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProfile = void 0;
+exports.UploadProfileImages = exports.getProfile = void 0;
 const Error_handler_1 = __importDefault(require("../service/Error-handler"));
+const blob_files_storage_1 = __importDefault(require("../service/blob-files-storage"));
+// models
+const blob_storage_model_1 = __importDefault(require("../models/blob-storage-model"));
 const profile_model_1 = __importDefault(require("../models/profile-model"));
+// models
 const getProfile = async (req, res) => {
+    var _a, _b;
     try {
         const { id } = req.body;
-        const profile = await profile_model_1.default.findOne({ where: { UID: id } });
+        if (!id) {
+            return Error_handler_1.default.handle(res, 404, "Profile undefined", req.body, "Профиль ненайден");
+        }
+        const profile = await profile_model_1.default.findOne({
+            where: { id },
+            include: [
+                {
+                    model: blob_storage_model_1.default,
+                    as: "av"
+                },
+                {
+                    model: blob_storage_model_1.default,
+                    as: "bg"
+                }
+            ]
+        });
         if (!profile) {
             Error_handler_1.default.handle(res, 404, "Profile undefined", req.body, "Профиль ненайден");
             return;
@@ -17,15 +37,49 @@ const getProfile = async (req, res) => {
         res.status(200).json({
             UID: profile.dataValues.UID,
             name: profile.dataValues.name,
-            avatar: profile.dataValues.avatar,
-            background: profile.dataValues.background,
+            avatar: (_a = profile.av) === null || _a === void 0 ? void 0 : _a.dataValues.link,
+            background: (_b = profile.bg) === null || _b === void 0 ? void 0 : _b.dataValues.link,
             isPrivate: profile.dataValues.isPrivate,
             isChannel: profile.dataValues.isChannel
         });
     }
     catch (err) {
         Error_handler_1.default.handle(res, 500, err, req.body, "Непредвиденная ошибка");
+        console.log(err);
     }
 };
 exports.getProfile = getProfile;
+const UploadProfileImages = async (req, res) => {
+    try {
+        const UID = req.user.id;
+        console.log(req.files);
+        if (!Array.isArray(req.files)) {
+            return;
+        }
+        const profile = await profile_model_1.default.findOne({
+            where: { UID, isChannel: false }
+        });
+        if (!profile) {
+            return Error_handler_1.default.handle(res, 404, "Профиль ненайден", UID, "Профиль ненайден");
+        }
+        const blob = await blob_files_storage_1.default.SaveFile(req.files[0]);
+        const file = await blob_storage_model_1.default.findOne({ where: { directory: blob.key } });
+        if (!file) {
+            return Error_handler_1.default.handle(res, 500, "Файл ненайден в блоб", blob, "Ошибка записи");
+        }
+        console.log(req.files[0].fieldname);
+        if (req.files[0].fieldname === 'avatar') {
+            await profile.update({ avatar: file.id });
+        }
+        else if (req.files[0].fieldname === 'background') {
+            await profile.update({ background: file.id });
+        }
+        res.status(200).json({ avatar: profile.avatar, background: profile.background });
+    }
+    catch (err) {
+        Error_handler_1.default.handle(res, 500, err, req.body, "Непредвиденная ошибка");
+        console.log(err);
+    }
+};
+exports.UploadProfileImages = UploadProfileImages;
 //# sourceMappingURL=profiles-controller.js.map

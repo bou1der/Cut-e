@@ -1,46 +1,51 @@
-import EasyYandexS3 from "easy-yandex-s3"
+// import EasyYandexS3 from "easy-yandex-s3"
+import Storage from "../models/blob-storage-model";
 import config from "../../config.json"
-import path from "node:path";
-import * as fs from "fs";
+import {S3Client,PutObjectCommand} from "@aws-sdk/client-s3"
+import {File} from "../types";
+import {v4 as uuidv4} from "uuid"
 
-class BlobStorage{
-    s3:EasyYandexS3
+class BlobStorage {
+    private s3:S3Client
+    private endpoint:string = config.BlobStorage.url
+    private bucket:string = `${config.BlobStorage.StorageName}`
+
     constructor() {
-        const AccessKey:string = "YCAJEeqq3mxa5TdEp27as4E_e"
-        const SecretKey:string = "YCPM465C346WPVKyTqaN-Ml8nprq-do74OlU6VpL"
-        this.s3 = new EasyYandexS3({
-            auth:{
-                accessKeyId:`${AccessKey}`,
-                secretAccessKey:`${SecretKey}`
+        this.s3 = new S3Client({
+            endpoint:`https://${this.endpoint}`,
+            credentials:{
+                accessKeyId:`YCAJEeqq3mxa5TdEp27as4E_e`,
+                secretAccessKey:`YCPM465C346WPVKyTqaN-Ml8nprq-do74OlU6VpL`
             },
-            Bucket:config.BlobStorage.StorageName,
-            debug:true
+            region:'ru-central1'
         })
     }
-    public async testMethod(){
-        // const test = path.resolve('./src/service/photo.png')
-        // console.log(test)4вч
-        // console.log("Работает")
-        // const write = await this.s3.Upload({path:test},'12758211/')
-        const list = await this.s3.GetList('/12758211/')
-        // console.log(list)
-        if (!list){
-            return
+
+    public async SaveFile(file:File){
+        try{
+            const key = uuidv4()
+            const res= await this.s3.send(await this._GenCommand(file.buffer,file.mimetype,key))
+            if (res.$metadata.httpStatusCode !== 200){
+                throw Error("Неудачная загрузка файла")
+            }
+            const link = this._GetLink(key)
+            const record = await Storage.create({directory:`${key}`,link})
+            return{
+                key,
+                link
+            }
+        }catch (err) {
+            console.log(err)
+            throw err
         }
-    //     const data:Array<string> = []
-    //     list.Contents?.map((file)=>{
-    //         if (!file.Key){return}
-    //         data.push(file.Key)
-    //     })
-    //     // console.log(data)
-    //     this.s3.
-    //     const get = await this.s3.Download(data[0])
-    //     if (get){
-    //         get.destinationFullPath
-    //     }
-    //     console.log(get)
-    // }
+    }
+    private _GetLink(key:string):string{
+        return `https://${this.endpoint}/${this.bucket}/${key}`
+    }
+    private async _GenCommand(FileBuffer:Buffer,mimetype:string,key?:string):Promise<PutObjectCommand>{
+        const Command = new PutObjectCommand({Bucket:this.bucket,Key:key || await uuidv4(),Body:FileBuffer,ContentType:mimetype})
+        return Command
+    }
 
 }
-
 export default new BlobStorage()

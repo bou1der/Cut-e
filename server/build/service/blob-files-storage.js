@@ -3,44 +3,49 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const easy_yandex_s3_1 = __importDefault(require("easy-yandex-s3"));
+// import EasyYandexS3 from "easy-yandex-s3"
+const blob_storage_model_1 = __importDefault(require("../models/blob-storage-model"));
 const config_json_1 = __importDefault(require("../../config.json"));
+const client_s3_1 = require("@aws-sdk/client-s3");
+const uuid_1 = require("uuid");
 class BlobStorage {
     constructor() {
-        const AccessKey = "YCAJEeqq3mxa5TdEp27as4E_e";
-        const SecretKey = "YCPM465C346WPVKyTqaN-Ml8nprq-do74OlU6VpL";
-        this.s3 = new easy_yandex_s3_1.default({
-            auth: {
-                accessKeyId: `${AccessKey}`,
-                secretAccessKey: `${SecretKey}`
+        this.endpoint = config_json_1.default.BlobStorage.url;
+        this.bucket = `${config_json_1.default.BlobStorage.StorageName}`;
+        this.s3 = new client_s3_1.S3Client({
+            endpoint: `https://${this.endpoint}`,
+            credentials: {
+                accessKeyId: `YCAJEeqq3mxa5TdEp27as4E_e`,
+                secretAccessKey: `YCPM465C346WPVKyTqaN-Ml8nprq-do74OlU6VpL`
             },
-            Bucket: config_json_1.default.BlobStorage.StorageName,
-            debug: true
+            region: 'ru-central1'
         });
     }
-    async testMethod() {
-        // const test = path.resolve('./src/service/photo.png')
-        // console.log(test)4вч
-        // console.log("Работает")
-        // const write = await this.s3.Upload({path:test},'12758211/')
-        const list = await this.s3.GetList('/12758211/');
-        // console.log(list)
-        if (!list) {
-            return;
+    async SaveFile(file) {
+        try {
+            const key = (0, uuid_1.v4)();
+            const res = await this.s3.send(await this._GenCommand(file.buffer, file.mimetype, key));
+            if (res.$metadata.httpStatusCode !== 200) {
+                throw Error("Неудачная загрузка файла");
+            }
+            const link = this._GetLink(key);
+            const record = await blob_storage_model_1.default.create({ directory: `${key}`, link });
+            return {
+                key,
+                link
+            };
         }
-        //     const data:Array<string> = []
-        //     list.Contents?.map((file)=>{
-        //         if (!file.Key){return}
-        //         data.push(file.Key)
-        //     })
-        //     // console.log(data)
-        //     this.s3.
-        //     const get = await this.s3.Download(data[0])
-        //     if (get){
-        //         get.destinationFullPath
-        //     }
-        //     console.log(get)
-        // }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
+    _GetLink(key) {
+        return `https://${this.endpoint}/${this.bucket}/${key}`;
+    }
+    async _GenCommand(FileBuffer, mimetype, key) {
+        const Command = new client_s3_1.PutObjectCommand({ Bucket: this.bucket, Key: key || await (0, uuid_1.v4)(), Body: FileBuffer, ContentType: mimetype });
+        return Command;
     }
 }
 exports.default = new BlobStorage();

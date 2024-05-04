@@ -1,24 +1,45 @@
-import {JSX,useState} from "react";
-import avatar from "./resource/photo_2023-10-03_09-31-43 1.png";
-const UploadImagesModal = ({setModal}:{setModal:useState}):JSX.Element =>{
+import {ChangeEvent, JSX, useState} from "react";
+import {uploadProfileImages} from "../../handlers/profiles-request-handlers.ts";
+// import avatar from "./resource/photo_2023-10-03_09-31-43 1.png";
 
+const UploadImagesModal = ({setModal}:{setModal:useState}):JSX.Element =>{
+    const [avatar, setAvatar] = useState<File | null>(null)
+    const [background, setBackground] = useState<File | null>(null)
     return (
         <>
             <div className="w-full h-full z-20 absolute flex items-center justify-center">
                 <div className="xl:w-6/12 xl:h-1/2 bg-StrongPink animate-transform-appeared z-30 absolute rounded-sm font-MainFont flex flex-col">
                     <div className="w-full grow flex flex-col">
+                        <input className="w-20 h-20" type="file" onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                            const files = event.currentTarget.files
+                            if (files)
+                                setAvatar(files[0])
+                        }}/>
+                        <input className="w-52 h-52" type="file"
+                            // onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                            // const files = event.currentTarget.files
+                            // if (files)
+                            //     setBackground(files[0])
+                            // }}
+                        />
+                        {/*<img className="w-7/12 h-52 bg-contain bg-no-repeat bg-top" style={{backgroundImage: 'url("https://sun9-77.userapi.com/impg/rB6krK8yIZweOxnxRQAb3OlJM7HOI1Cj_zkubQ/smSi0KZmvAs.jpg?size=960x384&quality=95&crop=0,138,1280,512&sign=e18f70e622bb2153fe990b6ae2ac9ebc&c_uniq_tag=-lz3ducesYoYdjZlmiPxT2RIOYNp6_gTJDf-kZ17s2E&type=helpers")'}} src="" alt=""/>*/}
 
-                        <img className="w-7/12 h-52 bg-contain bg-no-repeat bg-top" style={{backgroundImage: 'url("https://sun9-77.userapi.com/impg/rB6krK8yIZweOxnxRQAb3OlJM7HOI1Cj_zkubQ/smSi0KZmvAs.jpg?size=960x384&quality=95&crop=0,138,1280,512&sign=e18f70e622bb2153fe990b6ae2ac9ebc&c_uniq_tag=-lz3ducesYoYdjZlmiPxT2RIOYNp6_gTJDf-kZ17s2E&type=helpers")'}} src="" alt=""/>
-
-                        <img className="max-w-36" src={avatar} alt=""/>
+                        {/*<img className="max-w-36" src={avatar} alt=""/>*/}
                     </div>
                     <div>
                         <span><input type="checkbox" name="" id=""/></span>
+                        <button className="bg-White" onClick={()=>{
+                            if (avatar){
+                                uploadProfileImages({avatar})
+                            }
+
+                        }}>Сохранить</button>
                     </div>
                 </div>
 
 
-                <div className="w-full h-full z-20 absolute top-0 left-0 bg-Black bg-opacity-40 animate-from-shadow" onClick={() => {setModal(false)}}></div>
+                <div className="w-full h-full z-20 absolute top-0 left-0 bg-Black bg-opacity-40 animate-from-shadow"
+                     onClick={() => {setModal(false)}}></div>
             </div>
         </>
     )

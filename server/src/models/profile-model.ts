@@ -1,28 +1,43 @@
-import {Model,Optional, DataTypes} from "sequelize"
+import {Model, Optional, DataTypes, HasMany,HasOneOptions} from "sequelize"
 import Sequelize from "sequelize"
 import connection from "./sequelize-connect"
+import Storage from "./blob-storage-model";
 
 interface ProfileAttributes{
+    id:number
     UID:number
     name:string
     avatar:number
     background:number
     isChannel:boolean
     isPrivate:boolean
+
+    av?:Storage | null
+    bg?:Storage | null
 }
-interface ProfileCreateAttributes extends Optional<ProfileAttributes, "isPrivate" | "avatar" | "background"> {}
+interface ProfileCreateAttributes extends Optional<ProfileAttributes, "id" | "isPrivate" | "avatar" | "background"> {}
 
 class Profile extends Model<ProfileAttributes,ProfileCreateAttributes> implements ProfileAttributes
 {
+    public id!:number
     public UID!:number
     public name!:string
     public avatar!:number
     public background!:number
     public isChannel!:boolean
     public isPrivate!:boolean
+
+    av!:Storage | null
+    bg!:Storage | null
 }
 Profile.init(
     {
+        id:{
+          type:DataTypes.INTEGER,
+          primaryKey:true,
+          autoIncrement:true,
+          allowNull:false
+        },
         UID:{
             type:DataTypes.INTEGER,
             allowNull:false,
@@ -55,5 +70,16 @@ Profile.init(
         modelName:"profiles"
     }
 )
+
+Profile.hasOne(Storage,{
+    foreignKey:{field:"id",allowNull:true},
+    sourceKey:"avatar",
+    as:"av"
+})
+Profile.hasOne(Storage,{
+    foreignKey:{field:"id",allowNull:true},
+    sourceKey:"background",
+    as:"bg"
+})
 
 export default Profile
