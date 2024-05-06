@@ -21,7 +21,7 @@
 
 }
 .hover-button{
-    @apply hover:bg-HoverButtons transition-colors
+    @apply hover:bg-HoverButtons transition-colors 
 }
 .active{
     @apply bg-HoverButtons

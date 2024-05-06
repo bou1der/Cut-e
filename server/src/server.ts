@@ -13,6 +13,7 @@ import profileRouter from "./routes/profiles-routes"
 import CheckToken from "./middlewares/jwt-check-middleware"
 import Profile from "./models/profile-model";
 import Storage from "./models/blob-storage-model";
+import {Op} from "sequelize";
 dotenv.config()
 // http://localhost:3000/
 app.use(cors({
@@ -22,10 +23,12 @@ app.use(cors({
 }))
 app.use(cookieParser())
 app.use('/test', async (req,res)=>{
+
+    // console.log(profiles)
 })
 
 app.use('/api/authorization',authorization)
 app.use('/api/messanger',CheckToken,messanger)
-app.use('/api/profile',CheckToken,profileRouter)
+app.use('/api/profile',CheckToken,profileRouter) 
 
 export default app

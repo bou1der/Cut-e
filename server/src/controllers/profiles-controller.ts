@@ -3,9 +3,10 @@ import {Request,Response} from "express";
 import error from "../service/Error-handler";
 import BlobFilesStorage from "../service/blob-files-storage";
 // models
-
+import sequelize from 'sequelize'
 import Storage from "../models/blob-storage-model";
 import Profile from "../models/profile-model";
+import {Op} from "sequelize";
 // models
 export const getProfile = async (req:Request,res:Response) =>{
     try{
@@ -14,7 +15,7 @@ export const getProfile = async (req:Request,res:Response) =>{
             return error.handle(res,404,"Profile undefined",req.body,"Профиль ненайден")
         }
         const profile = await Profile.findOne({
-            where:{id},
+            where:{UID:id},
             include:[
                 {
                     model:Storage,
@@ -26,7 +27,6 @@ export const getProfile = async (req:Request,res:Response) =>{
                 }
             ]
         })
-
         if (!profile){
             error.handle(res,404,"Profile undefined",req.body,"Профиль ненайден")
             return;
@@ -43,6 +43,42 @@ export const getProfile = async (req:Request,res:Response) =>{
     }catch (err) {
         error.handle(res,500,err as object, req.body,"Непредвиденная ошибка")
         console.log(err)
+    }
+}
+export const foundProfile = async (req:Request,res:Response) =>{
+    try{
+        const {queryParams} = req.body
+        if (!queryParams){
+            return error.handle(res,404,"Параметры запроса ненайдены", req.body ,"Invalid query")
+        }
+        const profiles = await Profile.findAll({
+            where:{
+                name:{
+                    [Op.like]:`%${queryParams}%`
+                }
+            },
+            include:[
+                {
+                    model:Storage,
+                    as:"av",
+                    attributes:['link']
+                },
+                {
+                    model:Storage,
+                    as:"bg",
+                    attributes:['link']
+                }
+            ],
+            attributes:{
+                include:[
+                    [sequelize.col('av.link'),'avatar'],
+                    [sequelize.col('bg.link'),'background']
+                ]
+            }
+        })
+        res.status(200).json(profiles)
+    }catch (err) {
+        error.handle(res,500,err as object, req.body,"Непредвиденная ошибка")
     }
 }
 export const UploadProfileImages = async (req:Request,res:Response) =>{

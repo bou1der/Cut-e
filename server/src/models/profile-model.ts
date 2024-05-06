@@ -55,11 +55,11 @@ Profile.init(
             allowNull:true
         },
         isChannel:{
-            type:DataTypes.INTEGER,
+            type:DataTypes.BOOLEAN,
             allowNull:false,
         },
         isPrivate:{
-            type:DataTypes.INTEGER,
+            type:DataTypes.BOOLEAN,
             defaultValue:false,
             allowNull:false
         }

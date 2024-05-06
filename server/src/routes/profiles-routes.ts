@@ -1,5 +1,5 @@
 import express,{Router,Request,Response} from "express"
-import {getProfile, UploadProfileImages} from "../controllers/profiles-controller";
+import {foundProfile, getProfile, UploadProfileImages} from "../controllers/profiles-controller";
 import uploads from "../middlewares/file-uploads-middleware"
 const Parser = express.json()
 const router:Router = express.Router()
@@ -10,7 +10,9 @@ router.post("/fetch", Parser,async (req,res)=>{
 router.post("/upload/images",Parser,uploads.any(), async (req,res) =>{
     await UploadProfileImages(req,res)
 })
-
+router.post("/find",Parser,async (req,res)=>{
+    await foundProfile(req,res)
+})
 
 
 

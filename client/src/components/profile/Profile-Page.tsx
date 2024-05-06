@@ -16,10 +16,10 @@ const ProfilePage = ():JSX.Element =>{
         }
         fetch()
     },[id])
-    const [modalState,setModalState] = useState(false)
+    const [modalState,setModalState] = useState('')
     return(
         <>
-            {modalState && <UploadImagesModal setModal={setModalState} modalState={modalState}/>}
+            {modalState && <UploadImagesModal setModal={setModalState} modal={modalState} prop={profile} />}
             <div className="w-screen h-screen flex items-center justify-center">
                 <div className="relative xl:w-9/12 xl:h-4/5 bg-White inner-shadow rounded-sm overflow-y-scroll scrollbar-hide p-6">
                     {

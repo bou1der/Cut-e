@@ -13,6 +13,7 @@ import SocketStore from "./stores/socket-events-store.ts";
 import MessageStore from "./stores/message-store.ts";
 import ProfilePage from "./components/profile/Profile-Page.tsx";
 import messageStore from "./stores/message-store.ts";
+import FriendsPage from "./components/Friends-page/FriendsPage.tsx";
 
 
 const PrivateRouter = observer(() =>{
@@ -50,7 +51,7 @@ const PrivateRouter = observer(() =>{
                                     <Route path="" element={<MessagesPage/>}/>
                                 </Route>
                                 <Route path={"/friends"} element={<CheckerRouter/>}>
-                                    <Route path="" element={<div>Твои друзья(Если они есть)</div>}/>
+                                    <Route path="" element={<FriendsPage/>}/>
                                 </Route>
                                 <Route path={"/groups"} element={<CheckerRouter/>}>
                                     <Route path="" element={<div>Группы</div>}/>

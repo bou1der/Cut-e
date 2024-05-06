@@ -14,5 +14,8 @@ router.post("/fetch", Parser, async (req, res) => {
 router.post("/upload/images", Parser, file_uploads_middleware_1.default.any(), async (req, res) => {
     await (0, profiles_controller_1.UploadProfileImages)(req, res);
 });
+router.post("/find", Parser, async (req, res) => {
+    await (0, profiles_controller_1.foundProfile)(req, res);
+});
 exports.default = router;
 //# sourceMappingURL=profiles-routes.js.map

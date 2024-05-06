@@ -19,3 +19,9 @@ export type profile ={
         isPrivate:boolean,
         isChannel:boolean
 }
+
+export type storage = {
+        id:number,
+        directory:string,
+        link:string
+}

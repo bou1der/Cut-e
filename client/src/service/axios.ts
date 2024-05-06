@@ -27,9 +27,11 @@ api.interceptors.response.use((response)=>{
     return response
 
 },(ResponseReject)=>{
-    if (ResponseReject.response.status === 403){
+    if (ResponseReject?.response?.status === 403){
         authorizationStore.CheckAuth()
+
     }
+    console.log(ResponseReject)
 })
 
 export default api

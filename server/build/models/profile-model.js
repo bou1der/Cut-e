@@ -32,11 +32,11 @@ Profile.init({
         allowNull: true
     },
     isChannel: {
-        type: sequelize_1.DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.BOOLEAN,
         allowNull: false,
     },
     isPrivate: {
-        type: sequelize_1.DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: false
     }
