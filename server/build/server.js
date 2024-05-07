@@ -23,7 +23,6 @@ app.use((0, cors_1.default)({
 }));
 app.use((0, cookie_parser_1.default)());
 app.use('/test', async (req, res) => {
-    // console.log(profiles)
 });
 app.use('/api/authorization', authorization_router_1.default);
 app.use('/api/messanger', jwt_check_middleware_1.default, messanger_router_1.default);

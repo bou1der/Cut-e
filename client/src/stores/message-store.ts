@@ -45,6 +45,7 @@ class MessageStore {
         this.currentChat = null
     }
     public saveMessage(message:GetTextMessage){
+        console.log(message)
         const storage = this._messagesStorage.get(message.chat.id)
         if (!storage){
             return;
@@ -66,16 +67,22 @@ class MessageStore {
                 this._messagesStorage.set(id,messages)
                 storage = messages
             }
+            console.log(storage)
             const [chat] = toJS(this.chats).filter(chat => chat.id === id)
             this.currentChat = {chat,messages:storage}
         }finally {
             this.stateDownloadingMessages = false
         }
     }
+    public async createChat(chat:chat){
+        this.chats.push(chat)
+        // await this.selectChat(chat.id)
+    }
     // Метод который записывает принятые от сервера сообщения польвателей юзеру curentchat = null ? _messageStorage
     public async  fetchChats(){
         const res = await fetchChats()
         this.chats =  res.chats
+        console.log(res)
         this.userId = res.id
     }
     private async _fetchMessages(id:number):Promise<message[]>{

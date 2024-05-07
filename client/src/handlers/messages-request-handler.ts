@@ -17,3 +17,7 @@ export const fetchMessages = async (id:number):Promise<messageResponse> =>{
     const res = await api.post<Promise<messageResponse>>("/messanger/messages",{id})
     return res.data
 }
+export const newChat = async  (id:number) =>{
+    const res = await api.post<chat>("/messanger/chat/create",{id})
+    return res.data
+}

@@ -5,17 +5,17 @@ type Members = {id:number,nickname:string}
 interface ChatAttributes {
     id: number;
     name: string;
-    users: string;
+    users: number[];
     isGroup: boolean;
     members?:Members[]
 }
 
-interface ChatCreateAttributes extends Optional<ChatAttributes, "name" | "users" | "members"> {}
+interface ChatCreateAttributes extends Optional<ChatAttributes, "id"| "name" | "users" | "members"> {}
 
 class Chats extends Model<ChatAttributes, ChatCreateAttributes> implements ChatAttributes {
     public id!: number;
     public name!: string;
-    public users!: string;
+    public users!: number[];
     public isGroup!: boolean;
     public members?:Members[]
 }

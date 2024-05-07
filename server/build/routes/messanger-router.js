@@ -13,5 +13,8 @@ router.post("/chats", Parser, async (req, res) => {
 router.post("/messages", Parser, async (req, res) => {
     await (0, messanger_controller_1.fetchMessages)(req, res);
 });
+router.post("/chat/create", Parser, async (req, res) => {
+    await (0, messanger_controller_1.createChat)(req, res);
+});
 exports.default = router;
 //# sourceMappingURL=messanger-router.js.map

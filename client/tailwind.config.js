@@ -8,8 +8,8 @@ export default {
     colors:{
       "White":"#FFFFFF",
       "Black":"#000000",
-      "CreamPink":"#FFD2CF",
-      "StrongPink":"#FFC4C4",
+      "CreamPink":"#B5D7FF",
+      "StrongPink":"#78BEFF",
       "MainTextColor":"#8A5B4A",
       "BackTextColor":"#FF0000",
       "HoverButtons":"rgb(0,0,0, 0.15)"

@@ -4,11 +4,18 @@ import editPen from "./resource/edit-pen-2-line-svgrepo-com 1.svg";
 import activity from "./resource/activity.svg";
 import info from "./resource/info-circle-svgrepo-com 1.svg";
 import inviteFriend from "./resource/add-friend-basic-outline-svgrepo-com 1.svg";
+
 import {JSX} from "react";
 import {profile} from "../../types/axios-response-types.ts";
 import messageStore from "../../stores/message-store.ts";
+import {newChat} from "../../handlers/messages-request-handler.ts";
+import {useNavigate} from "react-router-dom";
+
+import {chat} from "../../types/axios-response-types.ts"
+import socketEventsStore from "../../stores/socket-events-store.ts";
 
 const UserHeader = ({setModal,props}:{setModal:useState,props:profile}):JSX.Element =>{
+    const navigate = useNavigate()
     return (
         <div
             className="bg-StrongPink w-full xl:h-64 text-MainTextColor font-MainFont grid grid-cols-1 grid-rows-2 rounded-t-lg rounded-b-2sm">
@@ -55,7 +62,18 @@ const UserHeader = ({setModal,props}:{setModal:useState,props:profile}):JSX.Elem
                     <label className="bg-CreamPink p-1.5 rounded-2sm hover-button"><img className="h-7 w-7"
                                                                                         src={`${inviteFriend}`} alt=""/></label>
                     <label className="text-18 bg-CreamPink py-1.5 px-7 rounded-sm hover-button">More</label>
-                    <label className="text-18 bg-CreamPink py-1.5 px-8 rounded-sm  hover-button">Send message</label>
+                    <label className="text-18 bg-CreamPink py-1.5 px-8 rounded-sm  hover-button"
+                        onClick={async ()=>{
+                            const res =await  newChat(props.UID)
+                            if (res.id){
+
+                            }
+                            messageStore.selectChat(res.id)
+                            navigate('/messages')
+
+
+                        }}
+                    >Send message</label>
                 </span>
             </div>
         </div>

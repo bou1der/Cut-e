@@ -26,7 +26,6 @@ const ProfilePage = ():JSX.Element =>{
                         profile &&
                             <UserHeader setModal={setModalState} props={profile}/>
                     }
-
                     <ProfileNavigation/>
                 </div>
             </div>

@@ -9,18 +9,36 @@ const messages_model_1 = __importDefault(require("../models/messages-model"));
 const sequelize_1 = require("sequelize");
 const Connections = (io, clients) => {
     io.on('connection', (socket) => {
-        console.log("---------------Клиент подключился---------------");
-        console.log(socket.id);
-        clients.push(socket.id);
+        io.use((socket, next) => {
+            const uid = socket.handshake.auth.uid;
+            if (clients.has(uid)) {
+                const prev = clients.get(uid);
+                if (prev) {
+                    prev.disconnect(true);
+                }
+                clients.set(uid, socket);
+                console.log(clients.size);
+                next();
+            }
+            clients.set(uid, socket);
+        });
         socket.on('chats:rooms/join', async (id) => {
             const chats = await chats_model_1.default.findAll({
-                where: sequelize_1.Sequelize.literal(`JSON_CONTAINS(json_unquote(json_extract(users, '$.id')), '${id}')`)
+                where: sequelize_1.Sequelize.literal(`JSON_CONTAINS(users, '${socket.handshake.auth.uid}')`),
             });
-            // if (!chats.length){
-            //     return socket.emit('error',"Undefined chats")
-            // }
             chats.map(chat => {
                 socket.join(`${chat.dataValues.id}`);
+            });
+        });
+        socket.on('chats:new/room/join', async (chat) => {
+            const newChat = await chats_model_1.default.findOne({ where: { id: chat.id } });
+            if (!newChat) {
+                //     emit err
+                return;
+            }
+            JSON.parse(newChat.users).map((member) => {
+                const sock = clients.get(member);
+                sock === null || sock === void 0 ? void 0 : sock.join(`${newChat.id}`);
             });
         });
         socket.on('chats:send/message', async (sendmessage) => {
@@ -34,19 +52,12 @@ const Connections = (io, clients) => {
             }
         });
         socket.on('connection:close', () => {
-            clients = clients.filter((el) => {
-                return el !== socket.id;
-            });
-            console.log(clients);
             socket.disconnect();
         });
         socket.on('disconnect', () => {
             console.log("---------------Клиент отключился---------------");
-            console.log(socket.id);
-            clients = clients.filter(el => {
-                return el !== socket.id;
-            });
-            console.log(clients);
+            clients.delete(socket.handshake.auth.uid);
+            console.log(clients.size);
         });
     });
 };

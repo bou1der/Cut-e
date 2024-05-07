@@ -1,4 +1,4 @@
-import {Server} from "socket.io"
+import {Server,Socket} from "socket.io"
 import Chats from "../models/chats-model";
 import Messages from "../models/messages-model";
 import {Sequelize} from "sequelize";
@@ -9,22 +9,43 @@ type textMessage = {
     chat:Omit<chat, "members" | "isGroup">
     message:Omit<message, "id" | "chatId" | "timeStamp">
 }
-export const Connections= (io:Server,clients:Array<string>) =>{
+export const Connections= (io:Server,clients:Map<number,Socket>) =>{
     io.on('connection',(socket)=>{
-        console.log("---------------Клиент подключился---------------");
-        console.log(socket.id)
-        clients.push(socket.id);
+        io.use((socket, next)=>{
+            const uid = socket.handshake.auth.uid
+            if (clients.has(uid)){
+                const prev = clients.get(uid)
+                if (prev){
+                    prev.disconnect(true)
+                }
+                clients.set(uid,socket);
+                console.log(clients.size)
+                next()
+            }
+            clients.set(uid, socket)
+        })
 
         socket.on('chats:rooms/join',async (id) =>{
             const chats = await Chats.findAll({
-                where: Sequelize.literal(`JSON_CONTAINS(json_unquote(json_extract(users, '$.id')), '${id}')`)
+                where: Sequelize.literal(
+                    `JSON_CONTAINS(users, '${socket.handshake.auth.uid}')`
+                ),
             })
-            // if (!chats.length){
-            //     return socket.emit('error',"Undefined chats")
-            // }
             chats.map(chat =>{
                 socket.join(`${chat.dataValues.id}`)
             })
+        })
+        socket.on('chats:new/room/join',async (chat:chat)=>{
+            const newChat = await Chats.findOne({where:{id:chat.id}})
+            if (!newChat){
+            //     emit err
+                return
+            }
+           JSON.parse(newChat.users).map((member:number) =>{
+               const sock = clients.get(member)
+               sock?.join(`${newChat.id}`)
+           })
+
         })
         socket.on('chats:send/message', async (sendmessage:textMessage)=>{
             try{
@@ -37,19 +58,12 @@ export const Connections= (io:Server,clients:Array<string>) =>{
 
         })
         socket.on('connection:close', () =>{
-            clients = clients.filter((el) =>{
-                return el !== socket.id
-            })
-            console.log(clients)
             socket.disconnect()
         })
         socket.on('disconnect', () =>{
             console.log("---------------Клиент отключился---------------");
-            console.log(socket.id)
-            clients = clients.filter(el =>{
-                return el !== socket.id
-            })
-            console.log(clients)
+            clients.delete(socket.handshake.auth.uid)
+            console.log(clients.size)
         })
 
     })
