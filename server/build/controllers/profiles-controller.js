@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UploadProfileImages = exports.foundProfile = exports.getProfile = void 0;
+exports.UploadPost = exports.UploadProfileImages = exports.foundProfile = exports.getProfile = void 0;
 const Error_handler_1 = __importDefault(require("../service/Error-handler"));
 const blob_files_storage_1 = __importDefault(require("../service/blob-files-storage"));
 // models
@@ -92,7 +92,6 @@ exports.foundProfile = foundProfile;
 const UploadProfileImages = async (req, res) => {
     try {
         const UID = req.user.id;
-        console.log(req.files);
         if (!Array.isArray(req.files)) {
             return;
         }
@@ -122,4 +121,13 @@ const UploadProfileImages = async (req, res) => {
     }
 };
 exports.UploadProfileImages = UploadProfileImages;
+const UploadPost = async (req, res) => {
+    try {
+    }
+    catch (err) {
+        Error_handler_1.default.handle(res, 500, err, req.body, "Непредвиденная ошибка");
+        console.log(err);
+    }
+};
+exports.UploadPost = UploadPost;
 //# sourceMappingURL=profiles-controller.js.map

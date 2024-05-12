@@ -62,7 +62,7 @@ function messagesBlock({props}:{props:currentChat | null}){
                 <button><img src={`${SendFilesButtonSrc}`} alt=""/></button>
                 <div className="grow px-7 h-full relative"><textarea id="inputMessage" className="w-full h-full rounded-sm bg-CreamPink text-MainTextColor resize-none overscroll-y-none pl-5 text-18 pt-3 placeholder:text-MainTextColor focus:outline-none scrollbar-hide" value={txtMessage}
                     onChange={(el) =>{
-                    setTxtMessage(el.target.value)
+                        setTxtMessage(el.target.value)
                     }}
                     onKeyDown={(event)=>{
                         if (event.shiftKey && event.keyCode === 13) {

@@ -5,7 +5,7 @@ import MusicImg from "./resource/music-svgrepo-com 1.svg"
 const ProfileNavigation = () =>{
     return (
         <>
-            <div className="absolute xl:w-96 xl:h-16 bg-StrongPink bottom-6 left-6 rounded-sm shadow-md">
+            <div className="sticky bottom-0 left-0  xl:w-96 xl:h-16 bg-StrongPink  rounded-sm shadow-md">
                 <div className="w-full h-full flex justify-center gap-4 items-center">
                     <label className="hover-button rounded-sm"><img className="w-14 xl:p-1.5 " src={`${NewsImg}`} alt=""/></label>
                     <div className="w-0.5 h-4 bg-Black bg-MainTextColor"></div>

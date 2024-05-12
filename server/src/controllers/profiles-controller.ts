@@ -84,7 +84,6 @@ export const foundProfile = async (req:Request,res:Response) =>{
 export const UploadProfileImages = async (req:Request,res:Response) =>{
     try {
         const UID = req.user.id
-        console.log(req.files)
         if (!Array.isArray(req.files)){
             return;
         }
@@ -107,6 +106,14 @@ export const UploadProfileImages = async (req:Request,res:Response) =>{
         }
 
         res.status(200).json({avatar:profile.avatar,background:profile.background})
+    }catch (err) {
+        error.handle(res,500,err as object, req.body,"Непредвиденная ошибка")
+        console.log(err)
+    }
+}
+export const UploadPost = async (req:Request,res:Response) =>{
+    try {
+
     }catch (err) {
         error.handle(res,500,err as object, req.body,"Непредвиденная ошибка")
         console.log(err)

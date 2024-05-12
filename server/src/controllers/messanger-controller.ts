@@ -8,26 +8,26 @@ import UsersModel from "../models/users-model";
 import Socket from "../server-socket"
 
 
+// let members: string[] = []
+// const userChats = await Chats.findAll({
+//         where: Sequelize.literal(`JSON_CONTAINS(json_unquote(json_extract(users, '$.id')), '${req.user.id}')`),
+// })
+//     .then((data)=>{
+//         data.map((chat)=>{
+//                 const test:string[] = JSON.parse(chat.users).id.slice(1,-1).split(',')
+//                 members = members.concat(test)
+//         })
+//         members = [...new Set(members)]
+//         return data;
+// })
 
+// console.log(userChats)
+// console.log(members)
+// const AllChatMembers = await  User.findAll({where:{id:members}})
 // ВСЮ ЭТУ ФУНКЦИЮ К ХРЕНАМ СНЕСТИ И ПЕРЕДЕЛАТЬ!!!!!!
 export const fetchChats = async (req:Request,res:Response) =>{
 try {
-                // let members: string[] = []
-                // const userChats = await Chats.findAll({
-                //         where: Sequelize.literal(`JSON_CONTAINS(json_unquote(json_extract(users, '$.id')), '${req.user.id}')`),
-                // })
-                //     .then((data)=>{
-                //         data.map((chat)=>{
-                //                 const test:string[] = JSON.parse(chat.users).id.slice(1,-1).split(',')
-                //                 members = members.concat(test)
-                //         })
-                //         members = [...new Set(members)]
-                //         return data;
-                // })
 
-                // console.log(userChats)
-                // console.log(members)
-                // const AllChatMembers = await  User.findAll({where:{id:members}})
         const arr:any = []
         const userChats = await Chats.findAll({
                 where: Sequelize.literal(
@@ -87,7 +87,7 @@ export const createChat = async (req:Request,res:Response) =>{
                 }
 
                 const newChat = await  Chats.create({users:[UID,id],isGroup:false})
-                Socket. emitNewChat(UID, {id:newChat.id,users:newChat.users,isGroup:newChat.isGroup,name:user.nickname})
+                Socket.emitNewChat(UID, {id:newChat.id,users:newChat.users,isGroup:newChat.isGroup,name:user.nickname})
 
                 res.status(200).json({id:newChat.id,name:user.nickname,members:newChat.members,isGroup:newChat.isGroup})
         }catch (err) {

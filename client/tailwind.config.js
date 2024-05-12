@@ -2,7 +2,7 @@ import react from "@vitejs/plugin-react";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html","./src/*.{js,jsx,ts,tsx}","./src/components/**/*.{js,jsx,ts,tsx}"],
+  content: ["./index.html","./src/*.{js,jsx,ts,tsx}","./src/components/**/*.{js,jsx,ts,tsx}","./src/router/*.{js,jsx,ts,tsx}"],
   // content:["./src/components/notification/notification.tsx"],
   theme: {
     colors:{
@@ -27,13 +27,11 @@ export default {
       MainFont:["Itim","Noto Sans","cursive"]
     },
     borderRadius:{
-
       "2sm":"10px",
       sm:"15px",
       md:"20px",
       lg:"25px",
       full:"100px",
-
     },
     fontSize:{
       "10":"10px",
@@ -47,8 +45,6 @@ export default {
       "36":"36px",
       "96":"96px",
     },
-
-
     extend: {
       boxShadow:{
         innerShadow:"0 0px 10px 3px rgb(0,0,0,0.25)"

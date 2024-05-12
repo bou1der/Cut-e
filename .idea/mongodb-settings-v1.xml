@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MongoDBSettings">
+    <option name="configs">
+      <map>
+        <entry key="TIME_ZONE_KEY" />
+      </map>
+    </option>
+    <option name="serverConnections">
+      <set>
+        <ServerConnectionSetting>
+          <option name="authenticationMethod" value="NONE" />
+          <option name="name" value="cut-e" />
+          <option name="serverUrls">
+            <list>
+              <option value="localhost:27017" />
+            </list>
+          </option>
+          <option name="sshTunnelingConfiguration">
+            <SshTunnelingConfiguration />
+          </option>
+          <option name="tlsSslConnection" value="DEFAULT" />
+          <option name="uuid" value="a493d32a-ed46-4ff4-ab69-fe8c5c6cdf4b" />
+        </ServerConnectionSetting>
+      </set>
+    </option>
+  </component>
+</project>

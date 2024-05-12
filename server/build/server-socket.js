@@ -42,7 +42,7 @@ class SocketIO {
                 }
             }
             this._clients.set(uid, socket);
-            console.log(`Current number of connected clients: ${this._clients.size}`);
+            console.log(`[WebSocket]:Current number of connected clients: ${this._clients.size}`);
             this._SocketConnectAllRooms(uid);
             socket.on('chat:send/message', async (message) => {
                 const write = await messages_model_1.default.create({ chatId: message.chat.id, text: message.message.text, from: message.message.from });

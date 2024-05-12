@@ -11,7 +11,7 @@ const UploadImagesModal = ({setModal,prop,modal}:{setModal:useState,prop:profile
     console.log(modal)
     return (
         <>
-            <div className="w-full h-full z-20 absolute flex items-center justify-center">
+            <div className="w-full h-full z-50 absolute flex items-center justify-center">
                 <div className="xl:w-6/12 xl:h-2/3 bg-StrongPink animate-transform-appeared z-30 absolute rounded-sm font-MainFont flex flex-col">
                     <div className="w-full grow flex flex-col items-center justify-center gap-10">
                         {modal === "avatar" ? <UserAvatar prop={prop}/> : <UserBackground prop={prop}/>}

@@ -14,18 +14,21 @@ const messanger_router_1 = __importDefault(require("./routes/messanger-router"))
 const profiles_routes_1 = __importDefault(require("./routes/profiles-routes"));
 // routes
 const jwt_check_middleware_1 = __importDefault(require("./middlewares/jwt-check-middleware"));
+const post_mongo_model_1 = __importDefault(require("./models/no-relation-database/post-mongo-model"));
 dotenv_1.default.config();
-// http://localhost:3000/
 app.use((0, cors_1.default)({
     origin: "http://localhost:3000",
     credentials: true,
     allowedHeaders: ["Origin", "X-Requested-With", "Content-Length", "Content-Type", "Accept", "Authorization", "Access-Control-Allow-Origin"],
 }));
 app.use((0, cookie_parser_1.default)());
-app.use('/test', async (req, res) => {
+app.use('/api/test', async (req, res) => {
+    const t = await post_mongo_model_1.default.create({ UID: 2, title: "test" });
+    console.log(t);
 });
 app.use('/api/authorization', authorization_router_1.default);
 app.use('/api/messanger', jwt_check_middleware_1.default, messanger_router_1.default);
 app.use('/api/profile', jwt_check_middleware_1.default, profiles_routes_1.default);
 exports.default = app;
+// https://habr.com/ru/companies/oleg-bunin/articles/543946/
 //# sourceMappingURL=server.js.map

@@ -14,14 +14,6 @@ class NotificationService {
         this.notifications.push(message)
         // this._handlerNotifications()
     }
-    public PostNotification():void{
-
-    }
-    // private _handlerNotifications():void{
-    //     const timeoutid = setTimeout(()=>{
-    //         this.notifications.shift()
-    //     },2000)
-    // }
     public clearNotify(){
         this.notifications.shift()
     }

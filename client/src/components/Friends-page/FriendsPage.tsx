@@ -5,6 +5,7 @@ import {findProfile} from "../../handlers/profiles-request-handlers.ts";
 import {profile} from "../../types/axios-response-types.ts";
 import api from "../../service/axios.ts";
 import {data} from "autoprefixer";
+import ProfileLoading from '../skeletons-loading/profile-loading.tsx';
 function debounce(func: (...args: any[]) => void, wait: number): (...args: any[]) => void {
     let timeout: NodeJS.Timeout | null;
     return function executedFunction(...args: any[]) {
@@ -16,7 +17,6 @@ function debounce(func: (...args: any[]) => void, wait: number): (...args: any[]
         timeout = setTimeout(later, wait);
     };
 }
-
 const FriendsPage = () => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<profile[]>([]);
@@ -31,7 +31,7 @@ const FriendsPage = () => {
             debouncedSearchProfiles(query);
         }
     }, [query]);
-
+    console.log(results)
     return (
         <>
             <div className="w-screen h-screen flex items-center justify-center">
@@ -43,9 +43,9 @@ const FriendsPage = () => {
                        }}
                     /><img className='absolute right-6 top-3' src={`${SearchImg}`} alt="" /></div>
                     <div className='xl:w-2/3 mt-10  overflow-y-scroll scrollbar-hide grow'>
-                        {results ? results.map((profile) =>{
+                        {results.length ? results.map((profile) =>{
                             return <UserProfileFound prop={profile}/>
-                        }) : <h1>Загрузка</h1>}
+                        }) : <ProfileLoading count={5}></ProfileLoading>}
                     </div>
                 </div>
             </div>

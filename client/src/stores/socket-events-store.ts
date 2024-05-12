@@ -33,14 +33,11 @@ class SocketStore {
 
         this._socket.on('connect',()=>{
             if (this._socket.connected){
-                // console.log('connect rooooooooooooooooooms')
-                // this._socket.emit('chats:rooms/join',messageStore.userId)
                 this._onMessages()
                 this.connectNewChat()
 
             }else{
             //     errorHandler
-            //     console.log("aaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 console.log(this._socket)
             }
         })

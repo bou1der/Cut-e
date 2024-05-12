@@ -11,24 +11,24 @@ const messages_model_1 = __importDefault(require("../models/messages-model"));
 const Error_handler_1 = __importDefault(require("../service/Error-handler"));
 const users_model_2 = __importDefault(require("../models/users-model"));
 const server_socket_1 = __importDefault(require("../server-socket"));
+// let members: string[] = []
+// const userChats = await Chats.findAll({
+//         where: Sequelize.literal(`JSON_CONTAINS(json_unquote(json_extract(users, '$.id')), '${req.user.id}')`),
+// })
+//     .then((data)=>{
+//         data.map((chat)=>{
+//                 const test:string[] = JSON.parse(chat.users).id.slice(1,-1).split(',')
+//                 members = members.concat(test)
+//         })
+//         members = [...new Set(members)]
+//         return data;
+// })
+// console.log(userChats)
+// console.log(members)
+// const AllChatMembers = await  User.findAll({where:{id:members}})
 // ВСЮ ЭТУ ФУНКЦИЮ К ХРЕНАМ СНЕСТИ И ПЕРЕДЕЛАТЬ!!!!!!
 const fetchChats = async (req, res) => {
     try {
-        // let members: string[] = []
-        // const userChats = await Chats.findAll({
-        //         where: Sequelize.literal(`JSON_CONTAINS(json_unquote(json_extract(users, '$.id')), '${req.user.id}')`),
-        // })
-        //     .then((data)=>{
-        //         data.map((chat)=>{
-        //                 const test:string[] = JSON.parse(chat.users).id.slice(1,-1).split(',')
-        //                 members = members.concat(test)
-        //         })
-        //         members = [...new Set(members)]
-        //         return data;
-        // })
-        // console.log(userChats)
-        // console.log(members)
-        // const AllChatMembers = await  User.findAll({where:{id:members}})
         const arr = [];
         const userChats = await chats_model_1.default.findAll({
             where: sequelize_1.Sequelize.literal(`JSON_CONTAINS(users, '${req.user.id}')`),
