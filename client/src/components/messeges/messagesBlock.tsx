@@ -60,7 +60,8 @@ function messagesBlock({props}:{props:currentChat | null}){
             <span className="w-full h-16 flex flex-row justify-between px-10 py-2">
 
                 <button><img src={`${SendFilesButtonSrc}`} alt=""/></button>
-                <div className="grow px-7 h-full relative"><textarea id="inputMessage" className="w-full h-full rounded-sm bg-CreamPink text-MainTextColor resize-none overscroll-y-none pl-5 text-18 pt-3 placeholder:text-MainTextColor focus:outline-none scrollbar-hide" value={txtMessage}
+                <div className="grow px-7 h-full relative">
+                    <textarea id="inputMessage" className="w-full h-full rounded-sm bg-CreamPink text-MainTextColor resize-none overscroll-y-none pl-5 text-18 pt-3 placeholder:text-MainTextColor focus:outline-none scrollbar-hide" value={txtMessage}
                     onChange={(el) =>{
                         setTxtMessage(el.target.value)
                     }}

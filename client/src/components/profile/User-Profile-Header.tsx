@@ -127,18 +127,29 @@ const UserHeader = ({setModal,props}:{setModal:useState,props:profile}):JSX.Elem
                     <Modal onClose={handlePostModalClose}>
                         <div
                             data-typeid="modal-post-create"
-                            className="xl:w-8/12 xl:h-2/3 bg-StrongPink animate-transform-appeared z-30 absolute rounded-sm font-MainFont flex flex-col">
-                            <div className="px-20 grid grid-cols-[0.1fr_0.8fr_0.1fr] items-start">
-                                <img className="w-16 rounded-full justify-self-center" src={`${props.avatar}`} alt=""/>
-                                <TextAreaAutoSize
-                                    style={"text-MainTextColor text-18  w-full mt-2.5 min-h-11 max-h-64 rounded-sm bg-CreamPink focus:outline-none px-6 py-2.5 resize-none scrollbar-hide"}
-                                    Values={[postInputValue, setPostInputValue]}
-                                />
-                                <label className="justify-self-center mt-4"><img src={`${settingsSVG}`} alt=""/></label>
+                            className="xl:w-8/12 xl:h-2/3 bg-StrongPink animate-transform-appeared z-30 absolute rounded-sm font-MainFont flex flex-col justify-between py-5">
+                            <div>
+                                <div className="px-20 grid grid-cols-[0.1fr_0.8fr_0.1fr] items-start">
+                                    <img className="w-16 rounded-full justify-self-center" src={`${props.avatar}`}
+                                         alt=""/>
+                                    <TextAreaAutoSize
+                                        style={"text-MainTextColor text-18  w-full mt-2.5 min-h-11 max-h-64 rounded-sm bg-CreamPink focus:outline-none px-6 py-2.5 resize-none scrollbar-hide"}
+                                        Values={[postInputValue, setPostInputValue]}
+                                    />
+                                    <label className="justify-self-center mt-4"><img src={`${settingsSVG}`}
+                                                                                     alt=""/></label>
+                                </div>
+                                <div className="h-40">
+                                    <Carousel uploads={{
+                                        imagesValue: imagesPostUpload,
+                                        imagesUploadHandler: setImagesPostUpload
+                                    }}>
+                                    </Carousel>
+                                </div>
                             </div>
-                            <Carousel uploads={{imagesValue:imagesPostUpload,imagesUploadHandler:setImagesPostUpload}}>
-                                {/*<img className="xl:h-36 xl:w-36" src={`${props.avatar}`} alt=""/>*/}
-                            </Carousel>
+                            <div className="w-full flex justify-end px-20 ">
+                                <label className="px-6 py-2 bg-CreamPink rounded-sm hover-button text-MainTextColor font-MainFont">Опубликовать</label>
+                            </div>
                         </div>
                     </Modal>
                 )}
