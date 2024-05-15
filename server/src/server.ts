@@ -22,6 +22,7 @@ app.use(cors({
 app.use(cookieParser())
 app.use('/api/test', async (req,res)=>{
     const t = await Posts.create({UID:2,title:"test"})
+
     console.log(t)
 })
 

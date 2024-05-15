@@ -11,6 +11,7 @@ const sequelize_1 = __importDefault(require("sequelize"));
 const blob_storage_model_1 = __importDefault(require("../models/blob-storage-model"));
 const profile_model_1 = __importDefault(require("../models/profile-model"));
 const sequelize_2 = require("sequelize");
+const post_mongo_model_1 = __importDefault(require("../models/no-relation-database/post-mongo-model"));
 // models
 const getProfile = async (req, res) => {
     var _a, _b;
@@ -33,14 +34,15 @@ const getProfile = async (req, res) => {
             ]
         });
         if (!profile) {
-            Error_handler_1.default.handle(res, 404, "Profile undefined", req.body, "Профиль ненайден");
-            return;
+            return Error_handler_1.default.handle(res, 404, "Profile undefined", req.body, "Профиль ненайден");
         }
         res.status(200).json({
+            id: profile.dataValues.id,
             UID: profile.dataValues.UID,
             name: profile.dataValues.name,
             avatar: (_a = profile.av) === null || _a === void 0 ? void 0 : _a.dataValues.link,
             background: (_b = profile.bg) === null || _b === void 0 ? void 0 : _b.dataValues.link,
+            posts: !profile.isPrivate ? await post_mongo_model_1.default.find({ PID: profile.dataValues.id }).exec() : [],
             isPrivate: profile.dataValues.isPrivate,
             isChannel: profile.dataValues.isChannel
         });
@@ -122,7 +124,30 @@ const UploadProfileImages = async (req, res) => {
 };
 exports.UploadProfileImages = UploadProfileImages;
 const UploadPost = async (req, res) => {
+    var _a;
     try {
+        const post = JSON.parse(req.body.params);
+        console.log(post);
+        if (!post) {
+            return Error_handler_1.default.handle(res, 404, "Отуствует нагрузка постов", req.body, "Не переданно ни одной нагрузки");
+        }
+        const profile = await profile_model_1.default.findOne({ where: { id: post.to } });
+        if (!profile) {
+            return Error_handler_1.default.handle(res, 404, "Профиль ненайден", req.body, "Профиль ненайден");
+        }
+        //     тут будет какая нибудь проверка для публикации поста итд
+        //     тут будет какая нибудь проверка для публикации поста итд
+        const NewPost = new post_mongo_model_1.default({
+            PID: profile.id,
+            title: post.text,
+            author: post.author,
+            images: await blob_files_storage_1.default.SaveArrayFiles(req.files),
+            params: {
+                private: ((_a = post.params) === null || _a === void 0 ? void 0 : _a.private) || false
+            }
+        });
+        await NewPost.save();
+        res.status(200).json(NewPost);
     }
     catch (err) {
         Error_handler_1.default.handle(res, 500, err, req.body, "Непредвиденная ошибка");

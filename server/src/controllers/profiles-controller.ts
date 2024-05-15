@@ -7,6 +7,8 @@ import sequelize from 'sequelize'
 import Storage from "../models/blob-storage-model";
 import Profile from "../models/profile-model";
 import {Op} from "sequelize";
+import {postParams} from "../types/messages-types";
+import Posts from "../models/no-relation-database/post-mongo-model"
 // models
 export const getProfile = async (req:Request,res:Response) =>{
     try{
@@ -27,16 +29,17 @@ export const getProfile = async (req:Request,res:Response) =>{
                 }
             ]
         })
-        if (!profile){
-            error.handle(res,404,"Profile undefined",req.body,"Профиль ненайден")
-            return;
-        }
 
+        if (!profile){
+            return error.handle(res,404,"Profile undefined",req.body,"Профиль ненайден")
+        }
         res.status(200).json({
+            id:profile.dataValues.id,
             UID:profile.dataValues.UID,
             name:profile.dataValues.name,
             avatar:profile.av?.dataValues.link,
             background:profile.bg?.dataValues.link,
+            posts: !profile.isPrivate ? await Posts.find({PID:profile.dataValues.id}).exec() : [],
             isPrivate:profile.dataValues.isPrivate,
             isChannel:profile.dataValues.isChannel
         })
@@ -113,7 +116,31 @@ export const UploadProfileImages = async (req:Request,res:Response) =>{
 }
 export const UploadPost = async (req:Request,res:Response) =>{
     try {
+        const post:postParams = JSON.parse(req.body.params)
+        console.log(post)
+        if (!post){
+            return error.handle(res,404,"Отуствует нагрузка постов",req.body,"Не переданно ни одной нагрузки")
+        }
+        const profile = await Profile.findOne({where:{id:post.to}})
+        if (!profile){
+            return error.handle(res,404,"Профиль ненайден",req.body,"Профиль ненайден")
+        }
 
+    //     тут будет какая нибудь проверка для публикации поста итд
+    //     тут будет какая нибудь проверка для публикации поста итд
+
+        const NewPost = new Posts({
+            PID:profile.id,
+            title:post.text,
+            author:post.author,
+            images:await BlobFilesStorage.SaveArrayFiles(req.files),
+            params:{
+                private:post.params?.private || false
+            }
+        })
+
+        await NewPost.save()
+        res.status(200).json(NewPost)
     }catch (err) {
         error.handle(res,500,err as object, req.body,"Непредвиденная ошибка")
         console.log(err)

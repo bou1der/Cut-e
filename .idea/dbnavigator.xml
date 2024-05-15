@@ -39,6 +39,7 @@
         <condition column="id" operator="=" value="" active="false" />
       </filter>
     </filter-actions>
+    <filter-actions connection-id="cc591f8c-e355-47d9-884e-31580eec0a8f" dataset="cute.profiles" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="cc591f8c-e355-47d9-884e-31580eec0a8f" dataset="cute.blobstorage" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="cc591f8c-e355-47d9-884e-31580eec0a8f" dataset="cute.tokens" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="cc591f8c-e355-47d9-884e-31580eec0a8f" dataset="cute.chats" active-filter-id="EMPTY_FILTER" />

@@ -3,13 +3,13 @@ import UserHeader from "./User-Profile-Header.tsx";
 import ProfileNavigation from "./ProfileNavigation.tsx";
 import {useParams} from "react-router";
 import UploadImagesModal from "./Upload-Images-Modal.tsx";
-import {profile} from "../../types/axios-response-types.ts";
+import {post, profile} from "../../types/axios-response-types.ts";
 import {getProfile} from "../../handlers/profiles-request-handlers.ts";
 import Post from "../our/Post.tsx";
 
 const ProfilePage = ():JSX.Element =>{
     const id = useParams().id
-    const [profile,setProfile] = useState<profile | null>(null)
+    const [profile,setProfile] = useState<(profile & {posts:post[]}) | null>(null)
     // const arr = new Array(5)
 
     useEffect(()=>{
@@ -36,12 +36,12 @@ const ProfilePage = ():JSX.Element =>{
                         profile &&
                             <UserHeader setModal={setModalState} props={profile}/>
                     }
-                        <Post props={null}/>
-                        <Post props={null}/>
-                        <Post props={null}/>
-                        <Post props={null}/>
-                        <Post props={null}/>
-                        <Post props={null}/>
+                    {
+                        profile?.posts.map((post) =>{
+
+                            return <Post props={post}/>
+                        })
+                    }
                     <ProfileNavigation/>
                 </div>
             </div>

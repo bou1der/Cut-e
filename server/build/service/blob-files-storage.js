@@ -40,6 +40,21 @@ class BlobStorage {
             throw err;
         }
     }
+    async SaveArrayFiles(files) {
+        try {
+            const BlobFiles = [];
+            const promises = [];
+            files.map(file => {
+                const p = Promise.resolve(this.SaveFile(file));
+                promises.push(p);
+            });
+            return await Promise.all(promises);
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
     _GetLink(key) {
         return `https://${this.endpoint}/${this.bucket}/${key}`;
     }

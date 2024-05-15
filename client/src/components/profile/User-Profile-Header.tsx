@@ -17,23 +17,22 @@ import {chat} from "../../types/axios-response-types.ts"
 import socketEventsStore from "../../stores/socket-events-store.ts";
 import {useParams} from "react-router";
 import api from "../../service/axios.ts";
-import Modal from "../../router/Modal.tsx";
+import Modal from "../../managers/Modal.tsx";
 import TextAreaAutoSize from "../our/textAreaAutoSize.tsx";
 import Carousel from "../our/carousel.tsx";
+import {UploadPost} from "../../handlers/profiles-request-handlers.ts";
 
 
 // const test = (scrollBlock,profileHeaderEvent) =>{
 //
 // }
 const UserHeader = ({setModal,props}:{setModal:useState,props:profile}):JSX.Element => {
-
     const [profileState, setProfileState] = useState<boolean>()
     const [postModalState, setPostModalState] = useState<boolean>(false)
     const [postInputValue,setPostInputValue] = useState<string>('')
     const [imagesPostUpload,setImagesPostUpload] = useState<File[]>([])
     const UID = useParams().id
     const navigate = useNavigate()
-
     useEffect(() => {
         setProfileState(!(Number(UID) === messageStore.userId))
     }, [UID]);
@@ -124,6 +123,7 @@ const UserHeader = ({setModal,props}:{setModal:useState,props:profile}):JSX.Elem
                     <img className="w-3/4 mx-auto mt-6" src={`${postCreate}`} alt=""/>
                 </label>
                 {postModalState && (
+                    // Модалка публикации постов
                     <Modal onClose={handlePostModalClose}>
                         <div
                             data-typeid="modal-post-create"
@@ -148,7 +148,11 @@ const UserHeader = ({setModal,props}:{setModal:useState,props:profile}):JSX.Elem
                                 </div>
                             </div>
                             <div className="w-full flex justify-end px-20 ">
-                                <label className="px-6 py-2 bg-CreamPink rounded-sm hover-button text-MainTextColor font-MainFont">Опубликовать</label>
+                                <label className="px-6 py-2 bg-CreamPink rounded-sm hover-button text-MainTextColor font-MainFont"
+                                    onClick={()=>{
+                                        UploadPost({author:messageStore.userId,to:props.id,text:postInputValue,images:imagesPostUpload})
+                                    }}
+                                >Опубликовать</label>
                             </div>
                         </div>
                     </Modal>

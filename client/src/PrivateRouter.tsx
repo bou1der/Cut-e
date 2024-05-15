@@ -1,7 +1,7 @@
 import {useEffect} from "react"
 import {Route,Routes,BrowserRouter,NavLink} from "react-router-dom"
 import AuthStore from "./stores/authorization-store.ts"
-import CheckerRouter from "./router/RouterAuthChecker.tsx";
+import CheckerRouter from "./managers/RouterAuthChecker.tsx";
 
 import SignPage from "./components/sign-up-in/Sign.tsx"
 import NavigatePanel from "./components/NavigatePanel/NavBar.tsx"

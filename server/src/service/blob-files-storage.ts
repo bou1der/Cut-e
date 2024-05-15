@@ -39,6 +39,20 @@ class BlobStorage {
             throw err
         }
     }
+    public async SaveArrayFiles(files:File[]){
+        try {
+            const BlobFiles:{key:string,link:string}[] = []
+            const promises:Array<Promise<{key:string,link:string}>> = []
+            files.map(file =>{
+                const p = Promise.resolve(this.SaveFile(file))
+                promises.push(p)
+            })
+            return await Promise.all(promises)
+        }catch (err) {
+            console.log(err)
+            throw err
+        }
+    }
     private _GetLink(key:string):string{
         return `https://${this.endpoint}/${this.bucket}/${key}`
     }

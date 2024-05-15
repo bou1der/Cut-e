@@ -13,7 +13,7 @@ router.post("/upload/images",Parser,uploads.any(), async (req,res) =>{
 router.post("/find",Parser,async (req,res)=>{
     await foundProfile(req,res)
 })
-router.post("/upload/post",Parser, async (req,res)=>{
+router.post("/upload/post",Parser, uploads.array('image'), async (req,res)=>{
     await UploadPost(req,res)
 })
 
