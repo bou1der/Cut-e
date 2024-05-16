@@ -15,7 +15,7 @@ router.post("/register", JsonParser, async (req, res) => {
 router.post("/login", JsonParser, async (req, res) => {
     return await (0, authorization_controller_1.login)(req, res);
 });
-router.post("/refresh", JsonParser, async (req, res) => {
+router.get("/refresh", JsonParser, async (req, res) => {
     return await (0, authorization_controller_1.refresh)(req, res);
 });
 router.post("/logout", JsonParser, async (req, res) => {

@@ -11,7 +11,7 @@ router.post("/register",JsonParser, async (req: Request,res: Response)=>{
 router.post("/login",JsonParser,async (req:Request,res:Response)=>{
     return await login(req,res)
 })
-router.post("/refresh",JsonParser,async (req:Request,res:Response)=>{
+router.get("/refresh",JsonParser,async (req:Request,res:Response)=>{
     return await refresh(req,res)
 })
 router.post("/logout",JsonParser,async (req:Request,res:Response)=>{

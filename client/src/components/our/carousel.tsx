@@ -15,11 +15,13 @@ const Carousel = (props:Props) =>{
             uploads.imagesUploadHandler([...uploads.imagesValue,event.currentTarget.files[0]])
         }
     }
+
     return(
         <>
-            <div className="h-full px-20 grid grid-cols-[0.1fr_0.8fr_0.1fr] items-center ">
+            <div className="h-full grid grid-cols-[0.1fr_0.8fr_0.1fr] items-center ">
                 <label className="justify-self-center"><img src={`${arrowLeftSVG}`} alt=""
                     onClick={()=>{
+
                         if (!parent.current){
                             return console.log("err")
                         }
@@ -50,19 +52,26 @@ const Carousel = (props:Props) =>{
                         }
                     </div>
                 </div>
-                <label className="justify-self-center"><img className="rotate-180" src={`${arrowLeftSVG}`} alt=""
-                    onClick={()=>{
-                        if (!parent.current){
-                            return console.log("err")
-                        }
-                        if (currentScroll.current < parent.current?.children.length - 4){
-                            currentScroll.current++
-                        }
-                        console.log(currentScroll)
-                        const position = (currentScroll.current * 164)
-                        return carousel.current?.scrollTo(position,0)
-                    }}
-                /></label>
+                {
+                    // parent.current &&
+                    // parent.current?.children.length > 4 ?
+                        <label className="justify-self-center"><img className="rotate-180" src={`${arrowLeftSVG}`} alt=""
+                            onClick={() => {
+
+                                if (!parent.current) {
+                                    return console.log("err")
+                                }
+                                if (currentScroll.current < parent.current?.children.length - 3) {
+                                    currentScroll.current++
+                                }
+                                console.log(currentScroll)
+                                const position = (currentScroll.current * 164)
+                                return carousel.current?.scrollTo(position, 0)
+                            }}
+                        /></label>
+                        // :
+                        // null
+                }
             </div>
         </>
     )

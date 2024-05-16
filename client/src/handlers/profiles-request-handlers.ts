@@ -1,5 +1,5 @@
 import api from "../service/axios.ts";
-import {post, profile} from "../types/axios-response-types.ts";
+import {author, post, profile} from "../types/axios-response-types.ts";
 
 
 type PostParams = {
@@ -41,6 +41,7 @@ export const UploadPost = async (params:PostParams) =>{
     return req.status
 }
 export const getProfile = async (id:number) =>{
-    const req = await api.post<profile & {posts:post[]}>("/profile/fetch",{id})
+    const req = await api.post<profile & {posts:Array<{post:post,author:author}>}>("/profile/fetch",{id})
+    console.log(req)
     return req.data
 }

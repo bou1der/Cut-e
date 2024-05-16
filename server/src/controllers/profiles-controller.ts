@@ -33,13 +33,23 @@ export const getProfile = async (req:Request,res:Response) =>{
         if (!profile){
             return error.handle(res,404,"Profile undefined",req.body,"Профиль ненайден")
         }
+        const arr = []
+        const posts = await Posts.find({PID:profile.dataValues.id}).exec()
+
+        for (let post of posts){
+            const {author,...rest} = post
+
+            const authorNew = await post.profile
+            arr.push({post,author:authorNew})
+        }
+        console.log(arr)
         res.status(200).json({
             id:profile.dataValues.id,
             UID:profile.dataValues.UID,
             name:profile.dataValues.name,
             avatar:profile.av?.dataValues.link,
             background:profile.bg?.dataValues.link,
-            posts: !profile.isPrivate ? await Posts.find({PID:profile.dataValues.id}).exec() : [],
+            posts: arr,
             isPrivate:profile.dataValues.isPrivate,
             isChannel:profile.dataValues.isChannel
         })
@@ -117,22 +127,28 @@ export const UploadProfileImages = async (req:Request,res:Response) =>{
 export const UploadPost = async (req:Request,res:Response) =>{
     try {
         const post:postParams = JSON.parse(req.body.params)
+        const {id} = req.user
         console.log(post)
         if (!post){
             return error.handle(res,404,"Отуствует нагрузка постов",req.body,"Не переданно ни одной нагрузки")
         }
-        const profile = await Profile.findOne({where:{id:post.to}})
-        if (!profile){
+        const ToProfile = await Profile.findOne({where:{id:post.to}})
+        if (!ToProfile){
             return error.handle(res,404,"Профиль ненайден",req.body,"Профиль ненайден")
         }
+        const AuthorProfile = await Profile.findOne({where:{id}})
 
+        if (!AuthorProfile){
+            return error.handle(res,404,"Профиль ненайден",req.body,"Профиль ненайден")
+
+        }
     //     тут будет какая нибудь проверка для публикации поста итд
     //     тут будет какая нибудь проверка для публикации поста итд
-
+        console.log(ToProfile)
         const NewPost = new Posts({
-            PID:profile.id,
+            PID:ToProfile.id,
             title:post.text,
-            author:post.author,
+            author:AuthorProfile.id,
             images:await BlobFilesStorage.SaveArrayFiles(req.files),
             params:{
                 private:post.params?.private || false

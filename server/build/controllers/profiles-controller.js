@@ -36,13 +36,21 @@ const getProfile = async (req, res) => {
         if (!profile) {
             return Error_handler_1.default.handle(res, 404, "Profile undefined", req.body, "Профиль ненайден");
         }
+        const arr = [];
+        const posts = await post_mongo_model_1.default.find({ PID: profile.dataValues.id }).exec();
+        for (let post of posts) {
+            const { author, ...rest } = post;
+            const authorNew = await post.profile;
+            arr.push({ post, author: authorNew });
+        }
+        console.log(arr);
         res.status(200).json({
             id: profile.dataValues.id,
             UID: profile.dataValues.UID,
             name: profile.dataValues.name,
             avatar: (_a = profile.av) === null || _a === void 0 ? void 0 : _a.dataValues.link,
             background: (_b = profile.bg) === null || _b === void 0 ? void 0 : _b.dataValues.link,
-            posts: !profile.isPrivate ? await post_mongo_model_1.default.find({ PID: profile.dataValues.id }).exec() : [],
+            posts: arr,
             isPrivate: profile.dataValues.isPrivate,
             isChannel: profile.dataValues.isChannel
         });
@@ -127,20 +135,26 @@ const UploadPost = async (req, res) => {
     var _a;
     try {
         const post = JSON.parse(req.body.params);
+        const { id } = req.user;
         console.log(post);
         if (!post) {
             return Error_handler_1.default.handle(res, 404, "Отуствует нагрузка постов", req.body, "Не переданно ни одной нагрузки");
         }
-        const profile = await profile_model_1.default.findOne({ where: { id: post.to } });
-        if (!profile) {
+        const ToProfile = await profile_model_1.default.findOne({ where: { id: post.to } });
+        if (!ToProfile) {
+            return Error_handler_1.default.handle(res, 404, "Профиль ненайден", req.body, "Профиль ненайден");
+        }
+        const AuthorProfile = await profile_model_1.default.findOne({ where: { id } });
+        if (!AuthorProfile) {
             return Error_handler_1.default.handle(res, 404, "Профиль ненайден", req.body, "Профиль ненайден");
         }
         //     тут будет какая нибудь проверка для публикации поста итд
         //     тут будет какая нибудь проверка для публикации поста итд
+        console.log(ToProfile);
         const NewPost = new post_mongo_model_1.default({
-            PID: profile.id,
+            PID: ToProfile.id,
             title: post.text,
-            author: post.author,
+            author: AuthorProfile.id,
             images: await blob_files_storage_1.default.SaveArrayFiles(req.files),
             params: {
                 private: ((_a = post.params) === null || _a === void 0 ? void 0 : _a.private) || false

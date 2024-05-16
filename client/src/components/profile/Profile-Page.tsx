@@ -3,13 +3,13 @@ import UserHeader from "./User-Profile-Header.tsx";
 import ProfileNavigation from "./ProfileNavigation.tsx";
 import {useParams} from "react-router";
 import UploadImagesModal from "./Upload-Images-Modal.tsx";
-import {post, profile} from "../../types/axios-response-types.ts";
+import {author, post, profile} from "../../types/axios-response-types.ts";
 import {getProfile} from "../../handlers/profiles-request-handlers.ts";
 import Post from "../our/Post.tsx";
 
 const ProfilePage = ():JSX.Element =>{
     const id = useParams().id
-    const [profile,setProfile] = useState<(profile & {posts:post[]}) | null>(null)
+    const [profile,setProfile] = useState<(profile & {posts:Array<{post:post,author:author}>}) | null>(null)
     // const arr = new Array(5)
 
     useEffect(()=>{
@@ -21,6 +21,7 @@ const ProfilePage = ():JSX.Element =>{
             if (!res.background){
                 res.background = "https://storage.yandexcloud.net/test-cloud-boulder/46fbabda-b100-479f-8414-cd8cd91de369"
             }
+            // res.posts[0].author.
             setProfile(res)
         }
         fetch()

@@ -47,6 +47,7 @@ export const login = async (req:Request,res:Response) =>{
 export const refresh = async (req:Request,res:Response) =>{
     try {
         const {refresh} = req.cookies
+        console.log(req.cookies)
         console.log(refresh)
         if(!refresh){
             return error.handle(res,404,"Отсутствует refresh токен",req.cookies,"Ненайденны некоторые данные")

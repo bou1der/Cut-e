@@ -6,9 +6,10 @@ import authorizationStore from "../stores/authorization-store.ts";
 const url = config.axios.ServerUrl || "http:/localhost:8080/api"
 const api = axios.create({
     withCredentials:true,
-    baseURL:url
+    baseURL:url,
 })
 api.interceptors.request.use((RequestConfig)=>{
+    RequestConfig.withCredentials = true
     RequestConfig.headers.Authorization = `Bearer ${localStorage.getItem('access')}`
     return RequestConfig;
 

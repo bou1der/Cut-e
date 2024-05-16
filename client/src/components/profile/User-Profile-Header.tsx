@@ -45,7 +45,7 @@ const UserHeader = ({setModal,props}:{setModal:useState,props:profile}):JSX.Elem
     }
     return (
         <>
-            <div className="sticky xl:-top-56">
+            <div className="sticky xl:-top-56 z-20">
                 <div
                     className="z-20 relative bg-StrongPink w-full xl:h-64 text-MainTextColor font-MainFont grid grid-cols-1 grid-rows-2 rounded-t-lg rounded-b-2sm "
                 >
@@ -139,7 +139,7 @@ const UserHeader = ({setModal,props}:{setModal:useState,props:profile}):JSX.Elem
                                     <label className="justify-self-center mt-4"><img src={`${settingsSVG}`}
                                                                                      alt=""/></label>
                                 </div>
-                                <div className="h-40">
+                                <div className="h-40 px-20 ">
                                     <Carousel uploads={{
                                         imagesValue: imagesPostUpload,
                                         imagesUploadHandler: setImagesPostUpload
